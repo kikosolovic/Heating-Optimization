@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj": {}
+    "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\Heating-Optimization.csproj": {}
   },
   "projects": {
-    "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj": {
+    "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\Heating-Optimization.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj",
+        "projectUniqueName": "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\Heating-Optimization.csproj",
         "projectName": "Heating-Optimization",
-        "projectPath": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj",
-        "packagesPath": "/home/kikosolovic/.nuget/packages/",
-        "outputPath": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/obj/",
+        "projectPath": "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\Heating-Optimization.csproj",
+        "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/kikosolovic/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/kikosolovic/.dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -41,7 +41,8 @@ namespace Heating_Optimization.Models
                         {
                             TimeFrom = DateTime.Parse(csv.GetField(0).Trim()),
                             TimeTo = DateTime.Parse(csv.GetField(1).Trim()),
-                            HeatDemand = double.Parse(csv.GetField(2).Trim())
+                            HeatDemand = double.Parse(csv.GetField(2).Trim()),
+                            ElectricityPrice = double.Parse(csv.GetField(3).Trim())
                         };
                         WinterPeriod.Add(winterData.TimeFrom, winterData);
                     }

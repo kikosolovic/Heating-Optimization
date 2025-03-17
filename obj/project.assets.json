@@ -1468,19 +1468,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\victo\\.nuget\\packages\\": {}
+    "/home/kikosolovic/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\Heating-Optimization.csproj",
+      "projectUniqueName": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj",
       "projectName": "Heating-Optimization",
-      "projectPath": "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\Heating-Optimization.csproj",
-      "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\victo\\OneDrive\\Escritorio\\VSCode_Projects\\Project2\\Heating-Optimization\\obj\\",
+      "projectPath": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj",
+      "packagesPath": "/home/kikosolovic/.nuget/packages/",
+      "outputPath": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/kikosolovic/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -1551,7 +1551,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/kikosolovic/.dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -12,6 +12,8 @@ public partial class App : Application
     public override void Initialize()
     {
         // SDM sdm = new SDM();
+        AM am = new AM();
+        Console.WriteLine(am.ProductionUnits[1].ElectricityProduction);
         // Console.WriteLine(sdm.SummerPeriod[DateTime.Parse("8/11/2024 0:00")].ElectricityPrice);
         AvaloniaXamlLoader.Load(this);
     }

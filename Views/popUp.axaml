@@ -3,8 +3,8 @@
         x:Class="Heating_Optimization.Views.CustomMessageBox"
         Width="300" Height="200">
     <StackPanel>
-        <Image Source="../Assets/denis.png" Width="50" Height="50" Margin="10"/>
-        <TextBlock Text="AH AH AH you didnt say the magic word AHAHAH" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <!-- <Image Source="Assets/denis.png" Width="50" Height="50" Margin="10"/> -->
+        <TextBlock Text="Wrong password, check SeedUsers.cs in Migrations folder " VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Content="OK" HorizontalAlignment="Center" Click="OnOkClick"/>
     </StackPanel>
 </Window>

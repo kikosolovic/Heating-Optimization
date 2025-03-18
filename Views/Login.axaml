@@ -5,12 +5,14 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Heating_Optimization.Views.Login"
         Title="Login">
+
+
 <StackPanel VerticalAlignment="Center">
   <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" RowDefinitions="*,*,*,*,*">
   <TextBlock Grid.Row="0" HorizontalAlignment="Center">Username</TextBlock>
   <TextBox Grid.Row="1" Width="400" x:Name="username"/>
   <TextBlock Grid.Row="2" HorizontalAlignment="Center" >Password</TextBlock>
-  <TextBox Grid.Row="3" Width="400" Name="password"/>
+  <TextBox Grid.Row="3" Width="400"  Name="password" PasswordChar="*"/>
   <Button Grid.Row="4" HorizontalAlignment="Center" Theme="{StaticResource EllipseButton}" Background="Brown" Click="verify">Log in!</Button>
     
     

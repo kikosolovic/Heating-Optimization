@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WNZ6hG++I6g=",
+  "dgSpecHash": "r8/6wD6vYdA=",
   "success": true,
   "projectFilePath": "/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Heating-Optimization.csproj",
   "expectedPackageFiles": [
@@ -21,11 +21,13 @@
     "/home/kikosolovic/.nuget/packages/avalonia.win32/11.2.1/avalonia.win32.11.2.1.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/avalonia.x11/11.2.1/avalonia.x11.11.2.1.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/csvhelper/33.0.1/csvhelper.33.0.1.nupkg.sha512",
+    "/home/kikosolovic/.nuget/packages/dialoghost.avalonia/0.8.1/dialoghost.avalonia.0.8.1.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/harfbuzzsharp/7.3.0.2/harfbuzzsharp.7.3.0.2.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/harfbuzzsharp.nativeassets.linux/7.3.0.2/harfbuzzsharp.nativeassets.linux.7.3.0.2.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/harfbuzzsharp.nativeassets.macos/7.3.0.2/harfbuzzsharp.nativeassets.macos.7.3.0.2.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/harfbuzzsharp.nativeassets.webassembly/7.3.0.3-preview.2.2/harfbuzzsharp.nativeassets.webassembly.7.3.0.3-preview.2.2.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/harfbuzzsharp.nativeassets.win32/7.3.0.2/harfbuzzsharp.nativeassets.win32.7.3.0.2.nupkg.sha512",
+    "/home/kikosolovic/.nuget/packages/messagebox.avalonia/3.2.0/messagebox.avalonia.3.2.0.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/microcom.runtime/0.11.0/microcom.runtime.0.11.0.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/skiasharp/2.88.8/skiasharp.2.88.8.nupkg.sha512",
     "/home/kikosolovic/.nuget/packages/skiasharp.nativeassets.linux/2.88.8/skiasharp.nativeassets.linux.2.88.8.nupkg.sha512",

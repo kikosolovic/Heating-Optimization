@@ -23,6 +23,7 @@
 /home/kikosolovic/.nuget/packages/avalonia.win32/11.2.1/lib/net8.0/Avalonia.Win32.dll
 /home/kikosolovic/.nuget/packages/avalonia.x11/11.2.1/lib/net8.0/Avalonia.X11.dll
 /home/kikosolovic/.nuget/packages/csvhelper/33.0.1/lib/net8.0/CsvHelper.dll
+/home/kikosolovic/.nuget/packages/dialoghost.avalonia/0.8.1/lib/netstandard2.0/DialogHost.Avalonia.dll
 /home/kikosolovic/.nuget/packages/harfbuzzsharp/7.3.0.2/lib/net6.0/HarfBuzzSharp.dll
 /home/kikosolovic/.nuget/packages/microcom.runtime/0.11.0/lib/net5.0/MicroCom.Runtime.dll
 /home/kikosolovic/.dotnet/packs/Microsoft.NETCore.App.Ref/9.0.2/ref/net9.0/Microsoft.CSharp.dll
@@ -30,6 +31,7 @@
 /home/kikosolovic/.dotnet/packs/Microsoft.NETCore.App.Ref/9.0.2/ref/net9.0/Microsoft.VisualBasic.dll
 /home/kikosolovic/.dotnet/packs/Microsoft.NETCore.App.Ref/9.0.2/ref/net9.0/Microsoft.Win32.Primitives.dll
 /home/kikosolovic/.dotnet/packs/Microsoft.NETCore.App.Ref/9.0.2/ref/net9.0/Microsoft.Win32.Registry.dll
+/home/kikosolovic/.nuget/packages/messagebox.avalonia/3.2.0/lib/netstandard2.0/MsBox.Avalonia.dll
 /home/kikosolovic/.dotnet/packs/Microsoft.NETCore.App.Ref/9.0.2/ref/net9.0/mscorlib.dll
 /home/kikosolovic/.dotnet/packs/Microsoft.NETCore.App.Ref/9.0.2/ref/net9.0/netstandard.dll
 /home/kikosolovic/.nuget/packages/skiasharp/2.88.8/lib/net6.0/SkiaSharp.dll

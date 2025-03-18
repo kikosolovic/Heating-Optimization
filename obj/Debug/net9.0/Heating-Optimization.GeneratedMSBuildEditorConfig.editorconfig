@@ -26,3 +26,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Views/Login.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/home/kikosolovic/Desktop/SCHOOL/Heating-Optimization/Views/popUp.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

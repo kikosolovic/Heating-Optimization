@@ -68,7 +68,8 @@ namespace Heating_Optimization.Models
 
         public SDM()
         {
-            LoadData("Assets/Data.csv");
+            LoadData(Directory.GetCurrentDirectory() + "/Assets/Data.csv");
+            // Console.WriteLine(Directory.GetCurrentDirectory());
         }
     }
 }

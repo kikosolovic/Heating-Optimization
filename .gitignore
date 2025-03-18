@@ -1,0 +1,49 @@
+# .NET Build Folders
+/bin/
+/obj/
+
+# User-specific files
+.vs/
+.idea/
+.vscode/
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+
+# NuGet packages
+/packages/
+
+# Visual Studio for Mac
+.vscode/
+
+# Avalonia-specific files (for UI projects)
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+
+# JetBrains Rider
+.idea/
+
+# Rider Project Files
+.idea/
+*.sublime-workspace
+
+# Microsoft Visual Studio for Mac
+.vscode/
+
+# User-specific configurations
+.vsconfig
+
+# .NET Core global tools
+global.json
+
+# Exclude temporary ASP.NET files
+# Temporary ASP.NET files
+aspnet_client/

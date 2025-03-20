@@ -15,5 +15,6 @@ namespace Heating_Optimization.Models
         public string TypeOfFuel { get; set; }
         public double ElectricityProduction { get; set; }
         public double ProductionCost { get; set; }
+
     }
 }

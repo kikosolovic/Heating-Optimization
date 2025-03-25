@@ -24,57 +24,126 @@ namespace Heating_Optimization.Models
             _sdm = sdm;
         }
 
-        // Example: Perform calculation for a specific DateTime
-        public void CalculateElectricityCosts(DateTime targetTime)
+        // Function to calculate production costs and print sorted list by cost
+        public void SortByProductionCost(DateTime targetTime)
         {
-            HourlyData? hourlyData = null;
-
-            // Try to find ElectricityPrice for the given time from Winter or Summer data
-            if (_sdm.WinterPeriod.ContainsKey(targetTime))
-            {
-                hourlyData = _sdm.WinterPeriod[targetTime];
-                Console.WriteLine($"[Winter] Found data for {targetTime}, Electricity Price: {hourlyData.ElectricityPrice}");
-            }
-            else if (_sdm.SummerPeriod.ContainsKey(targetTime))
-            {
-                hourlyData = _sdm.SummerPeriod[targetTime];
-                Console.WriteLine($"[Summer] Found data for {targetTime}, Electricity Price: {hourlyData.ElectricityPrice}");
-            }
-            else
+            HourlyData? hourlyData = GetHourlyData(targetTime);
+            if (hourlyData == null)
             {
                 Console.WriteLine($"No data found for {targetTime}");
                 return;
             }
 
-
-            // Create a temporary list to hold PU name and result
-            List<(string Name, double Result)> puResults = new List<(string, double)>();
+            List<(string Name, double Result, double Co2)> puResults = new List<(string, double, double)>();
 
             foreach (var pu in _am.ProductionUnits)
             {
-                Console.WriteLine($"PU Name: {pu.Name}");
-                Console.WriteLine($"Production Cost: {pu.ProductionCost}");
-                Console.WriteLine($"Electricity Production per MW: {pu.ElectricityProductionPerMW}");
-
-                // Perform calculation (example formula):
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
-                Console.WriteLine($"Calculated Value: {result}");
-                Console.WriteLine("----------------------------------");
-
-                // Add to list
-                puResults.Add((pu.Name, result));
+                double co2 = pu.Co2Emissions;
+                puResults.Add((pu.Name, result, co2));
             }
 
-            // Sort the list by result (ascending order: best to worst)
-            var sortedResults = puResults.OrderBy(r => r.Result).ToList();
+            var sorted = puResults.OrderBy(r => r.Result).ToList();
 
-            // Print ranking
-            Console.WriteLine("\n=== Production Unit Ranking (Best to Worst) ===");
-            for (int i = 0; i < sortedResults.Count; i++)
+            Console.WriteLine("\n=== Sorted by Production Cost ===");
+            foreach (var item in sorted)
             {
-                Console.WriteLine($"{i + 1}. {sortedResults[i].Name} - Result: {sortedResults[i].Result}");
+                Console.WriteLine($"> {item.Name} - Cost Result: {item.Result:F2}, CO2: {item.Co2}");
             }
-            Console.WriteLine("===============================================");
+        }
+
+        // Function to rank units by CO2 emissions and print
+        public void RankByCO2Emissions(DateTime targetTime)
+        {
+            HourlyData? hourlyData = GetHourlyData(targetTime);
+            if (hourlyData == null)
+            {
+                Console.WriteLine($"No data found for {targetTime}");
+                return;
+            }
+
+            List<(string Name, double Result, double Co2)> puResults = new List<(string, double, double)>();
+
+            foreach (var pu in _am.ProductionUnits)
+            {
+                double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
+                double co2 = pu.Co2Emissions;
+                puResults.Add((pu.Name, result, co2));
+            }
+
+            var sortedByCo2 = puResults.OrderBy(r => r.Co2).ToList();
+
+            Console.WriteLine("\n=== Ranked by CO2 Emissions ===");
+            foreach (var item in sortedByCo2)
+            {
+                Console.WriteLine($"> {item.Name} - CO2: {item.Co2}");
+            }
+        }
+
+        // Function to calculate average ranking between cost and CO2 emissions and print
+        public void CalculateAverageRanking(DateTime targetTime)
+        {
+            HourlyData? hourlyData = GetHourlyData(targetTime);
+            if (hourlyData == null)
+            {
+                Console.WriteLine($"No data found for {targetTime}");
+                return;
+            }
+
+            List<(string Name, double Result, double Co2)> puResults = new List<(string, double, double)>();
+
+            foreach (var pu in _am.ProductionUnits)
+            {
+                double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
+                double co2 = pu.Co2Emissions;
+                puResults.Add((pu.Name, result, co2));
+            }
+
+            var sortedByCost = puResults.OrderBy(r => r.Result).ToList();
+            var sortedByCO2 = puResults.OrderBy(r => r.Co2).ToList();
+
+            Dictionary<string, int> costPositions = new Dictionary<string, int>();
+            Dictionary<string, int> co2Positions = new Dictionary<string, int>();
+
+            for (int i = 0; i < sortedByCost.Count; i++)
+            {
+                costPositions[sortedByCost[i].Name] = i + 1;
+            }
+            for (int i = 0; i < sortedByCO2.Count; i++)
+            {
+                co2Positions[sortedByCO2[i].Name] = i + 1;
+            }
+
+            List<(string Name, double AverageRank)> averageRanks = new List<(string, double)>();
+            foreach (var pu in puResults)
+            {
+                int costRank = costPositions[pu.Name];
+                int co2Rank = co2Positions[pu.Name];
+                double avgRank = (costRank + co2Rank) / 2.0;
+                averageRanks.Add((pu.Name, avgRank));
+            }
+
+            var sortedAverage = averageRanks.OrderBy(r => r.AverageRank).ToList();
+
+            Console.WriteLine("\n=== Average Ranking ===");
+            foreach (var item in sortedAverage)
+            {
+                Console.WriteLine($"> {item.Name} - Average Rank: {item.AverageRank:F2}");
+            }
+        }
+
+        // Helper function to get HourlyData
+        private HourlyData? GetHourlyData(DateTime targetTime)
+        {
+            if (_sdm.WinterPeriod.ContainsKey(targetTime))
+            {
+                return _sdm.WinterPeriod[targetTime];
+            }
+            else if (_sdm.SummerPeriod.ContainsKey(targetTime))
+            {
+                return _sdm.SummerPeriod[targetTime];
+            }
+            return null;
         }
     }
 }

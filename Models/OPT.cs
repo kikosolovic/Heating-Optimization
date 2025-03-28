@@ -24,8 +24,18 @@ namespace Heating_Optimization.Models
             _sdm = sdm;
         }
 
+        private HashSet<int> GetSelectedPUIds(int caseNumber)
+        {
+            return caseNumber switch
+            {
+                1 => new HashSet<int> { 1, 2, 3 },       // Gas Boiler 1, Gas Boiler 2, Oil Boiler
+                2 => new HashSet<int> { 1, 3, 4, 5 },   // Gas Boiler 1, Oil Boiler, Gas Motor, Heat Pump
+                _ => new HashSet<int>() // Return an empty HashSet instead of null
+            };
+        }
+
         // Function to calculate production costs and print sorted list by cost
-        public void SortByProductionCost(DateTime targetTime)
+        public void SortByProductionCost(DateTime targetTime, int caseNumber)
         {
             HourlyData? hourlyData = GetHourlyData(targetTime);
             if (hourlyData == null)
@@ -34,18 +44,19 @@ namespace Heating_Optimization.Models
                 return;
             }
 
-            List<(string Name, double Result, double Co2)> puResults = new List<(string, double, double)>();
+            HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
+            List<(int Id, string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits)
+            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
-                puResults.Add((pu.Name, result, co2));
+                puResults.Add((pu.Id, pu.Name, result, co2));
             }
 
             var sorted = puResults.OrderBy(r => r.Result).ToList();
 
-            Console.WriteLine("\n=== Sorted by Production Cost ===");
+            Console.WriteLine($"\n=== Sorted by Production Cost (Case {caseNumber}) ===");
             foreach (var item in sorted)
             {
                 Console.WriteLine($"> {item.Name} - Cost Result: {item.Result:F2}, CO2: {item.Co2}");
@@ -53,7 +64,7 @@ namespace Heating_Optimization.Models
         }
 
         // Function to rank units by CO2 emissions and print
-        public void RankByCO2Emissions(DateTime targetTime)
+        public void RankByCO2Emissions(DateTime targetTime, int caseNumber)
         {
             HourlyData? hourlyData = GetHourlyData(targetTime);
             if (hourlyData == null)
@@ -62,9 +73,10 @@ namespace Heating_Optimization.Models
                 return;
             }
 
-            List<(string Name, double Result, double Co2)> puResults = new List<(string, double, double)>();
+            HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
+            List<(string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits)
+            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -81,7 +93,7 @@ namespace Heating_Optimization.Models
         }
 
         // Function to calculate average ranking between cost and CO2 emissions and print
-        public void CalculateAverageRanking(DateTime targetTime)
+        public void CalculateAverageRanking(DateTime targetTime, int caseNumber)
         {
             HourlyData? hourlyData = GetHourlyData(targetTime);
             if (hourlyData == null)
@@ -90,9 +102,10 @@ namespace Heating_Optimization.Models
                 return;
             }
 
-            List<(string Name, double Result, double Co2)> puResults = new List<(string, double, double)>();
+            HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
+            List<(string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits)
+            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -102,8 +115,8 @@ namespace Heating_Optimization.Models
             var sortedByCost = puResults.OrderBy(r => r.Result).ToList();
             var sortedByCO2 = puResults.OrderBy(r => r.Co2).ToList();
 
-            Dictionary<string, int> costPositions = new Dictionary<string, int>();
-            Dictionary<string, int> co2Positions = new Dictionary<string, int>();
+            Dictionary<string, int> costPositions = new();
+            Dictionary<string, int> co2Positions = new();
 
             for (int i = 0; i < sortedByCost.Count; i++)
             {
@@ -114,7 +127,7 @@ namespace Heating_Optimization.Models
                 co2Positions[sortedByCO2[i].Name] = i + 1;
             }
 
-            List<(string Name, double AverageRank)> averageRanks = new List<(string, double)>();
+            List<(string Name, double AverageRank)> averageRanks = new();
             foreach (var pu in puResults)
             {
                 int costRank = costPositions[pu.Name];

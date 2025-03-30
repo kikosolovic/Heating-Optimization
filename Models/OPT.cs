@@ -9,11 +9,14 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using System.Xml.Linq;
 using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography.X509Certificates;
+using Avalonia.Metadata;
 
 namespace Heating_Optimization.Models
 {
     public class OPT
     {
+        public double ActualHeat = 0;
         private AM _am;
         private SDM _sdm;
 
@@ -43,24 +46,58 @@ namespace Heating_Optimization.Models
                 Console.WriteLine($"No data found for {targetTime}");
                 return;
             }
-
+             
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
-            List<(int Id, string Name, double Result, double Co2)> puResults = new();
+            List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
+            List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> puResults2 = new();
 
             foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
-                puResults.Add((pu.Id, pu.Name, result, co2));
+                puResults.Add((pu.Id, pu.Name, result, co2, pu.MaxHeat));
             }
 
             var sorted = puResults.OrderBy(r => r.Result).ToList();
+            double TotalPrice = 0;
 
             Console.WriteLine($"\n=== Sorted by Production Cost (Case {caseNumber}) ===");
             foreach (var item in sorted)
             {
                 Console.WriteLine($"> {item.Name} - Cost Result: {item.Result:F2}, CO2: {item.Co2}");
             }
+            ActualHeat = hourlyData.HeatDemand;
+            for (int i = 0; i < sorted.Count; i++)
+            {
+                if (sorted[i].MaxHeat <= ActualHeat & i!=sorted.Count)
+                {
+                    ActualHeat -= sorted[i].MaxHeat;
+                    double TotalCost = sorted[i].MaxHeat * sorted[i].Result;
+                    double PercentageUsed = 100;
+                    double TotalCo2 = sorted[i].Co2;
+                    double TotalHeat = sorted[i].MaxHeat;
+                    puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
+                }
+                else
+                {
+                    double TotalHeat = ActualHeat;
+                    double TotalCost = TotalHeat * sorted[i].Result;
+                    double PercentageUsed = (100 * ActualHeat) / sorted[i].MaxHeat;
+                    double TotalCo2 =sorted[i].Co2*(PercentageUsed/100);
+                    ActualHeat = 0;
+                    puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
+                }
+            }
+            foreach (var cost in puResults2)
+            {
+                TotalPrice += cost.TotalCost;
+            }
+            Console.WriteLine($"\n=== Sorted by Production Cost (Case {caseNumber}) ===");
+            foreach (var item in puResults2)
+            {
+                Console.WriteLine($"> Id: {item.Id} - Name:{item.Name} - Percentage Of Use: {item.PercentageUsed}%, TotalCO2: {item.TotalCo2}, TotalHeat{item.TotalHeat}");
+            }
+            Console.WriteLine($"\n=== Total Spent (Case {caseNumber})= {TotalPrice} ===");
         }
 
         // Function to rank units by CO2 emissions and print
@@ -90,6 +127,8 @@ namespace Heating_Optimization.Models
             {
                 Console.WriteLine($"> {item.Name} - CO2: {item.Co2}");
             }
+
+            
         }
 
         // Function to calculate average ranking between cost and CO2 emissions and print

@@ -97,6 +97,8 @@ namespace Heating_Optimization.Models
             {
                 Console.WriteLine($"> Id: {item.Id} - Name:{item.Name} - Percentage Of Use: {item.PercentageUsed}%, TotalCO2: {item.TotalCo2}, TotalHeat{item.TotalHeat}");
             }
+            Console.WriteLine($"\n=== The Heat Demand for {hourlyData.TimeFrom} is {hourlyData.HeatDemand}  ===");
+            Console.WriteLine($"\n=== The Electricity Price for {hourlyData.TimeFrom} is {hourlyData.ElectricityPrice}  ===");
             Console.WriteLine($"\n=== Total Spent (Case {caseNumber})= {TotalPrice} ===");
         }
 

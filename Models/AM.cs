@@ -42,12 +42,13 @@ namespace Heating_Optimization.Models
                         {
                             Id = _idCount++,
                             Name = csv.GetField(0).Trim(),
-                            MaxHeat = double.Parse(csv.GetField(1).Trim()),
-                            Co2Emissions = double.Parse(csv.GetField(2).Trim()),
-                            FuelConsumption = double.Parse(csv.GetField(4).Trim()),
+                            MaxHeat = double.Parse(csv.GetField(1).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
+                            Co2Emissions = double.Parse(csv.GetField(2).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
+                            FuelConsumption = double.Parse(csv.GetField(4).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
                             TypeOfFuel = csv.GetField(3).Trim(),
-                            ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim())/double.Parse(csv.GetField(1).Trim()),
-                            ProductionCost = double.Parse(csv.GetField(6).Trim())
+                            ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim().Replace(",", "."), CultureInfo.InvariantCulture) 
+                                                        / double.Parse(csv.GetField(1).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
+                            ProductionCost = double.Parse(csv.GetField(6).Trim().Replace(",", "."), CultureInfo.InvariantCulture)
                         };
                         ProductionUnits.Add(productionData);
                     }

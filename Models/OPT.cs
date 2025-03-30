@@ -95,11 +95,11 @@ namespace Heating_Optimization.Models
             Console.WriteLine($"\n=== Sorted by Production Cost (Case {caseNumber}) ===");
             foreach (var item in puResults2)
             {
-                Console.WriteLine($"> Id: {item.Id} - Name:{item.Name} - Percentage Of Use: {item.PercentageUsed}%, TotalCO2: {item.TotalCo2}, TotalHeat{item.TotalHeat}");
+                Console.WriteLine($"> Id: {item.Id} - Name: {item.Name} - Percentage Of Use: {item.PercentageUsed:F2}%, TotalCO2: {item.TotalCo2:F2}kg/MWh, TotalHeat: {item.TotalHeat:F2}MW");
             }
-            Console.WriteLine($"\n=== The Heat Demand for {hourlyData.TimeFrom} is {hourlyData.HeatDemand}  ===");
-            Console.WriteLine($"\n=== The Electricity Price for {hourlyData.TimeFrom} is {hourlyData.ElectricityPrice}  ===");
-            Console.WriteLine($"\n=== Total Spent (Case {caseNumber})= {TotalPrice} ===");
+            Console.WriteLine($"\n=== The Heat Demand for {hourlyData.TimeFrom} is {hourlyData.HeatDemand}MW  ===");
+            Console.WriteLine($"\n=== The Electricity Price for {hourlyData.TimeFrom} is {hourlyData.ElectricityPrice} kr  ===");
+            Console.WriteLine($"\n=== Total Spent (Case {caseNumber})= {TotalPrice} kr===");
         }
 
         // Function to rank units by CO2 emissions and print

@@ -33,8 +33,11 @@ namespace Heating_Optimization.Models
             {
                 1 => new HashSet<int> { 1, 2, 3 },       // Gas Boiler 1, Gas Boiler 2, Oil Boiler
                 2 => new HashSet<int> { 1, 3, 4, 5 },   // Gas Boiler 1, Oil Boiler, Gas Motor, Heat Pump
-                _ => new HashSet<int>() // Return an empty HashSet instead of null
-            };
+                3 => GetUserInputHashSet(),
+                Console.WriteLine("Input the machine id separated by ',' (Example: 1,3,4):");
+        string input = Console.ReadLine(); // Leer entrada del usuario
+
+        new HashSet<int> { selectedValues = ParseInputToHashSet(input) };
         }
 
         // Function to calculate production costs and print sorted list by cost
@@ -198,6 +201,20 @@ namespace Heating_Optimization.Models
                 return _sdm.SummerPeriod[targetTime];
             }
             return null;
+        }
+        private HashSet<int> GetUserInputHashSet()
+        {
+            Console.WriteLine("Ingrese los números separados por comas (Ejemplo: 1,3,4):");
+            string input = Console.ReadLine(); // Leer la entrada del usuario
+
+            // Convertir la entrada en un HashSet de enteros
+            var inputArray = input.Split(',') // Separar la entrada por comas
+                                   .Select(str => str.Trim()) // Eliminar espacios en blanco
+                                   .Where(str => int.TryParse(str, out _)) // Filtrar solo números válidos
+                                   .Select(int.Parse) // Convertir los strings a enteros
+                                   .ToHashSet(); // Convertir a HashSet
+
+            return inputArray;
         }
     }
 }

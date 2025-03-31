@@ -19,6 +19,7 @@ public partial class MainWindow : Window
         Console.WriteLine("Which Scenario would you like to implemet?");
         Console.WriteLine("- Scenario 1");
         Console.WriteLine("- Scenario 2");
+        Console.WriteLine("- Scenario 3, choosing your own machines");
 
         string? choiceScenario = Console.ReadLine();
         
@@ -28,6 +29,11 @@ public partial class MainWindow : Window
         if (int.TryParse(choiceScenario, out scenario) && (scenario == 1 || scenario == 2))
         {
             Console.WriteLine($"You selected Scenario {scenario}");
+            // Now you can use the 'scenario' variable to implement the chosen scenario
+        }
+        else if (int.TryParse(choiceScenario, out scenario) && (scenario == 3))
+        {
+            Console.WriteLine($"You selected to choice your own ID list");
             // Now you can use the 'scenario' variable to implement the chosen scenario
         }
         else

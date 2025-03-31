@@ -46,7 +46,7 @@ namespace Heating_Optimization.Models
                                 Co2Emissions = double.Parse(csv.GetField(2).Trim()),
                                 FuelConsumption = double.Parse(csv.GetField(4).Trim()),
                                 TypeOfFuel = csv.GetField(3).Trim(),
-                                ElectricityProduction = double.Parse(csv.GetField(5).Trim()),
+                                ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim()),
                                 ProductionCost = double.Parse(csv.GetField(6).Trim())
                             }
                             ;

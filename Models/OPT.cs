@@ -16,7 +16,7 @@ namespace Heating_Optimization.Models
 {
     public class OPT
     {
-        public double ActualHeat = 0;
+        private double ActualHeat = 0;
         private AM _am;
         private SDM _sdm;
 
@@ -33,6 +33,7 @@ namespace Heating_Optimization.Models
             {
                 1 => new HashSet<int> { 1, 2, 3 },       // Gas Boiler 1, Gas Boiler 2, Oil Boiler
                 2 => new HashSet<int> { 1, 3, 4, 5 },   // Gas Boiler 1, Oil Boiler, Gas Motor, Heat Pump
+                3 => GetUserInputHashSet(),
                 _ => new HashSet<int>() // Return an empty HashSet instead of null
             };
         }
@@ -87,6 +88,10 @@ namespace Heating_Optimization.Models
                     ActualHeat = 0;
                     puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
                 }
+            }
+            if (ActualHeat!=0)
+            {
+                Console.WriteLine($"\n=== A TOTAL OF {ActualHeat:F2}MW CANNOT BE SATISFIED ===");
             }
             foreach (var cost in puResults2)
             {
@@ -199,5 +204,19 @@ namespace Heating_Optimization.Models
             }
             return null;
         }
+        private HashSet<int> GetUserInputHashSet()
+{
+    Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
+    string input = Console.ReadLine(); // Leer la entrada del usuario
+    
+    // Convertir la entrada en un HashSet de enteros
+    var inputArray = input.Split(',') // Separar la entrada por comas
+                           .Select(str => str.Trim()) // Eliminar espacios en blanco
+                           .Where(str => int.TryParse(str, out _)) // Filtrar solo números válidos
+                           .Select(int.Parse) // Convertir los strings a enteros
+                           .ToHashSet(); // Convertir a HashSet
+
+    return inputArray;
+}
     }
 }

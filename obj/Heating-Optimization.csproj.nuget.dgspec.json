@@ -46,23 +46,31 @@
           "dependencies": {
             "Avalonia": {
               "target": "Package",
-              "version": "[11.2.1, )"
+              "version": "[11.2.6, )"
             },
             "Avalonia.Desktop": {
               "target": "Package",
-              "version": "[11.2.1, )"
+              "version": "[11.2.6, )"
             },
             "Avalonia.Diagnostics": {
               "target": "Package",
-              "version": "[11.2.1, )"
+              "version": "[11.2.6, )"
             },
             "Avalonia.Fonts.Inter": {
               "target": "Package",
-              "version": "[11.2.1, )"
+              "version": "[11.2.6, )"
+            },
+            "Avalonia.Headless": {
+              "target": "Package",
+              "version": "[11.2.6, )"
+            },
+            "Avalonia.Headless.NUnit": {
+              "target": "Package",
+              "version": "[11.2.6, )"
             },
             "Avalonia.Themes.Fluent": {
               "target": "Package",
-              "version": "[11.2.1, )"
+              "version": "[11.2.6, )"
             },
             "CsvHelper": {
               "target": "Package",
@@ -87,6 +95,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.3, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.2, )"
             }
           },
           "imports": [

@@ -18,8 +18,8 @@ public partial class App : Application
         Console.WriteLine("electricity production for PU nm 2");
         Console.WriteLine(am.ProductionUnits[3].ElectricityProduction);
         Console.WriteLine("electricity price for 8/11/2024 0:00");
-        Console.WriteLine(sdm.SummerPeriod[DateTime.Parse("8/11/2024 0:00")].ElectricityPrice);
-
+        // Console.WriteLine(sdm.SummerPeriod[DateTime.Parse("8/11/2024 0:00")].ElectricityPrice);
+        Console.WriteLine(sdm.SummerPeriod.Count);
 
 
         AvaloniaXamlLoader.Load(this);

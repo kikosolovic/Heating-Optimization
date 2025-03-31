@@ -57,6 +57,7 @@ namespace Heating_Optimization.Models
                             ElectricityPrice = double.Parse(csv.GetField(8).Trim())
                         };
                         SummerPeriod.Add(summerData.TimeFrom, summerData);
+                        Console.WriteLine(summerData.TimeFrom);
 
                     }
 
@@ -68,8 +69,12 @@ namespace Heating_Optimization.Models
 
         public SDM()
         {
-            LoadData(Directory.GetCurrentDirectory() + "/Assets/Data.csv");
             // Console.WriteLine(Directory.GetCurrentDirectory());
+            // LoadData(Directory.GetCurrentDirectory() + "/Assets/Data.csv");
+
+            var data = DataLoader.LoadData<SDM>(Directory.GetCurrentDirectory() + "/Assets/SDMData.csv", ",");
+            SummerPeriod = data.Item1;
+            WinterPeriod = data.Item2;
         }
     }
 }

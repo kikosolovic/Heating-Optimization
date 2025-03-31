@@ -62,7 +62,8 @@ namespace Heating_Optimization.Models
 
         public AM()
         {
-            LoadData("Assets/PUData.csv");
+            // LoadData("Assets/PUData.csv");
+            ProductionUnits = DataLoader.LoadData<AM>(Directory.GetCurrentDirectory() + "/Assets/PUData.csv", ";");
 
         }
     }

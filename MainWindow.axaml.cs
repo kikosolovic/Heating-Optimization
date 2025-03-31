@@ -13,33 +13,33 @@ public partial class MainWindow : Window
         AM am = new AM();
         SDM sdm = new SDM();
         OPT opt = new OPT(am, sdm);
-        
+
         InitializeComponent();
 
         Console.WriteLine("Which Scenario would you like to implemet?");
-Console.WriteLine("- Scenario 1");
-Console.WriteLine("- Scenario 2");
-Console.WriteLine("- Scenario 3, choosing your own machines");
+        Console.WriteLine("- Scenario 1");
+        Console.WriteLine("- Scenario 2");
+        Console.WriteLine("- Scenario 3, choosing your own machines");
 
         string? choiceScenario = Console.ReadLine();
-        
+
         // Convert the input to an integer (either 1 or 2)
         int scenario = 0;
 
         if (int.TryParse(choiceScenario, out scenario) && (scenario == 1 || scenario == 2))
-{
-    Console.WriteLine($"You selected Scenario {scenario}");
-    // Now you can use the 'scenario' variable to implement the chosen scenario
-}
-else if (int.TryParse(choiceScenario, out scenario) && (scenario == 3))
-{
-    Console.WriteLine($"You selected to choice your own ID list");
-    // Now you can use the 'scenario' variable to implement the chosen scenario
-}
-else
-{
-    Console.WriteLine("Invalid choice. Please select 1, 2 or 3.");
-}
+        {
+            Console.WriteLine($"You selected Scenario {scenario}");
+            // Now you can use the 'scenario' variable to implement the chosen scenario
+        }
+        else if (int.TryParse(choiceScenario, out scenario) && (scenario == 3))
+        {
+            Console.WriteLine($"You selected to choice your own ID list");
+            // Now you can use the 'scenario' variable to implement the chosen scenario
+        }
+        else
+        {
+            Console.WriteLine("Invalid choice. Please select 1, 2 or 3.");
+        }
 
         Console.WriteLine("What would you like to optimize?");
         Console.WriteLine("1- Calculate cheapest Production Costs for a period");
@@ -50,8 +50,8 @@ else
         Action<DateTime>? selectedAction = choiceCalculation switch
         {
             "1" => (date) => opt.SortByProductionCost(date, scenario),
-            "2" => (date) => opt.RankByCO2Emissions(date, scenario),    
-            "3" => (date) => opt.CalculateAverageRanking(date, scenario), 
+            "2" => (date) => opt.RankByCO2Emissions(date, scenario),
+            "3" => (date) => opt.CalculateAverageRanking(date, scenario),
             _ => null
         };
 
@@ -74,6 +74,6 @@ else
             Console.WriteLine("Invalid option. Please choose 1, 2, or 3.");
         }
     }
-}  
+}
 
 // 01/03/2024 09:00   - ejemplo de fecha que sirve

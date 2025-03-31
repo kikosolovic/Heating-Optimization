@@ -13,6 +13,7 @@ namespace Heating_Optimization.Models
 {
     public class AM
     {
+        private int _idCount = 1;
         public string GridName { get; set; }
         public string ImageUrl { get; set; }
 
@@ -39,19 +40,20 @@ namespace Heating_Optimization.Models
                     {
                         var productionData = new PU
                         {
+                            Id = _idCount++,
                             Name = csv.GetField(0).Trim(),
-                            MaxHeat = double.Parse(csv.GetField(1).Trim()),
-                            Co2Emissions = double.Parse(csv.GetField(2).Trim()),
-                            FuelConsumption = double.Parse(csv.GetField(4).Trim()),
+                            MaxHeat = double.Parse(csv.GetField(1).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
+                            Co2Emissions = double.Parse(csv.GetField(2).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
+                            FuelConsumption = double.Parse(csv.GetField(4).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
                             TypeOfFuel = csv.GetField(3).Trim(),
-                            ElectricityProduction = double.Parse(csv.GetField(5).Trim()),
-                            ProductionCost = double.Parse(csv.GetField(6).Trim())
+                            ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim().Replace(",", "."), CultureInfo.InvariantCulture) 
+                                                        / double.Parse(csv.GetField(1).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
+                            ProductionCost = double.Parse(csv.GetField(6).Trim().Replace(",", "."), CultureInfo.InvariantCulture)
                         };
                         ProductionUnits.Add(productionData);
                     }
                 }
             }
-
         }
         public void RemovePU(int id)
         {

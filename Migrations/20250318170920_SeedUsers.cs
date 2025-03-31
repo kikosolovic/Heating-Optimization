@@ -22,7 +22,7 @@ namespace HeatingOptimization.Migrations
                     { 3, "Charlie", "password3" },
                     { 4, "David", "password4" },
                     { 5, "Eve", "password5" }
-                });
+                }); // change to team names
         }
 
         /// <inheritdoc />

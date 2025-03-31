@@ -16,7 +16,7 @@ namespace Heating_Optimization.Models
 {
     public class OPT
     {
-        public double ActualHeat = 0;
+        private double ActualHeat = 0;
         private AM _am;
         private SDM _sdm;
 
@@ -34,10 +34,8 @@ namespace Heating_Optimization.Models
                 1 => new HashSet<int> { 1, 2, 3 },       // Gas Boiler 1, Gas Boiler 2, Oil Boiler
                 2 => new HashSet<int> { 1, 3, 4, 5 },   // Gas Boiler 1, Oil Boiler, Gas Motor, Heat Pump
                 3 => GetUserInputHashSet(),
-                Console.WriteLine("Input the machine id separated by ',' (Example: 1,3,4):");
-        string input = Console.ReadLine(); // Leer entrada del usuario
-
-        new HashSet<int> { selectedValues = ParseInputToHashSet(input) };
+                _ => new HashSet<int>() // Return an empty HashSet instead of null
+            };
         }
 
         // Function to calculate production costs and print sorted list by cost
@@ -49,7 +47,7 @@ namespace Heating_Optimization.Models
                 Console.WriteLine($"No data found for {targetTime}");
                 return;
             }
-             
+
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
             List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> puResults2 = new();
@@ -72,7 +70,7 @@ namespace Heating_Optimization.Models
             ActualHeat = hourlyData.HeatDemand;
             for (int i = 0; i < sorted.Count; i++)
             {
-                if (sorted[i].MaxHeat <= ActualHeat & i!=sorted.Count)
+                if (sorted[i].MaxHeat <= ActualHeat & i != sorted.Count)
                 {
                     ActualHeat -= sorted[i].MaxHeat;
                     double TotalCost = sorted[i].MaxHeat * sorted[i].Result;
@@ -86,10 +84,14 @@ namespace Heating_Optimization.Models
                     double TotalHeat = ActualHeat;
                     double TotalCost = TotalHeat * sorted[i].Result;
                     double PercentageUsed = (100 * ActualHeat) / sorted[i].MaxHeat;
-                    double TotalCo2 =sorted[i].Co2*(PercentageUsed/100);
+                    double TotalCo2 = sorted[i].Co2 * (PercentageUsed / 100);
                     ActualHeat = 0;
                     puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
                 }
+            }
+            if (ActualHeat != 0)
+            {
+                Console.WriteLine($"\n=== A TOTAL OF {ActualHeat:F2}MW CANNOT BE SATISFIED ===");
             }
             foreach (var cost in puResults2)
             {
@@ -133,7 +135,7 @@ namespace Heating_Optimization.Models
                 Console.WriteLine($"> {item.Name} - CO2: {item.Co2}");
             }
 
-            
+
         }
 
         // Function to calculate average ranking between cost and CO2 emissions and print
@@ -204,7 +206,7 @@ namespace Heating_Optimization.Models
         }
         private HashSet<int> GetUserInputHashSet()
         {
-            Console.WriteLine("Ingrese los números separados por comas (Ejemplo: 1,3,4):");
+            Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
             string input = Console.ReadLine(); // Leer la entrada del usuario
 
             // Convertir la entrada en un HashSet de enteros

@@ -39,10 +39,10 @@ namespace Heating_Optimization.Models
                     {
                         var winterData = new HourlyData
                         {
-                            TimeFrom = DateTime.Parse(csv.GetField(0).Trim()),
-                            TimeTo = DateTime.Parse(csv.GetField(1).Trim()),
-                            HeatDemand = double.Parse(csv.GetField(2).Trim()),
-                            ElectricityPrice = double.Parse(csv.GetField(3).Trim())
+                            TimeFrom = DateTime.ParseExact(csv.GetField(0).Trim(), "M/d/yyyy H:mm", CultureInfo.InvariantCulture),
+                            TimeTo = DateTime.ParseExact(csv.GetField(1).Trim(), "M/d/yyyy H:mm", CultureInfo.InvariantCulture),
+                            HeatDemand = double.Parse(csv.GetField(2).Trim(), CultureInfo.InvariantCulture),
+                            ElectricityPrice = double.Parse(csv.GetField(3).Trim(), CultureInfo.InvariantCulture)
                         };
                         WinterPeriod.Add(winterData.TimeFrom, winterData);
                     }
@@ -51,16 +51,14 @@ namespace Heating_Optimization.Models
                     {
                         var summerData = new HourlyData
                         {
-                            TimeFrom = DateTime.Parse(csv.GetField(5).Trim()),
-                            TimeTo = DateTime.Parse(csv.GetField(6).Trim()),
-                            HeatDemand = double.Parse(csv.GetField(7).Trim()),
-                            ElectricityPrice = double.Parse(csv.GetField(8).Trim())
+                            TimeFrom = DateTime.ParseExact(csv.GetField(5).Trim(), "M/d/yyyy H:mm", CultureInfo.InvariantCulture),
+                            TimeTo = DateTime.ParseExact(csv.GetField(6).Trim(), "M/d/yyyy H:mm", CultureInfo.InvariantCulture),
+                            HeatDemand = double.Parse(csv.GetField(7).Trim(), CultureInfo.InvariantCulture),
+                            ElectricityPrice = double.Parse(csv.GetField(8).Trim(), CultureInfo.InvariantCulture)
                         };
-                        SummerPeriod.Add(summerData.TimeFrom, summerData);
+                        SummerPeriod.Add(summerData.TimeFrom, summerData);
 
                     }
-
-
                 }
             }
 

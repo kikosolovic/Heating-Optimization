@@ -13,7 +13,9 @@ namespace Heating_Optimization.Models
         public double Co2Emissions { get; set; }
         public double FuelConsumption { get; set; }
         public string TypeOfFuel { get; set; }
-        public double ElectricityProduction { get; set; }
+        public double ElectricityProductionPerMW { get; set; }
         public double ProductionCost { get; set; }
+        public int Id { get; set; }
+
     }
 }

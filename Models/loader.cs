@@ -24,7 +24,7 @@ namespace Heating_Optimization.Models
                 IgnoreBlankLines = true
             };
 
-            using (var reader = new StreamReader(Directory.GetCurrentDirectory() + "/Assets/PUData.csv"))
+            using (var reader = new StreamReader("Assets/PUData.csv"))
             using (var csv = new CsvReader(reader, config))
 
             {
@@ -61,7 +61,7 @@ namespace Heating_Optimization.Models
                 IgnoreBlankLines = true
             };
 
-            using (var reader = new StreamReader(Directory.GetCurrentDirectory() + "/Assets/SDMData.csv"))
+            using (var reader = new StreamReader("Assets/SDMData.csv"))
             using (var csv = new CsvReader(reader, config))
 
             {

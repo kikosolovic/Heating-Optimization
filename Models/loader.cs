@@ -47,7 +47,8 @@ namespace Heating_Optimization.Models
                                 FuelConsumption = double.Parse(csv.GetField(4).Trim()),
                                 TypeOfFuel = csv.GetField(3).Trim(),
                                 ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim()),
-                                ProductionCost = double.Parse(csv.GetField(6).Trim())
+                                ProductionCost = double.Parse(csv.GetField(6).Trim()),
+                                IsON = true
                             }
                             ;
                             ProductionUnits.Add(productionData);

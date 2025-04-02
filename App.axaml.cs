@@ -29,11 +29,15 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // desktop.MainWindow = new MainWindow();
-            desktop.MainWindow = new Login
+            desktop.MainWindow = new MainWindow
             {
-                DataContext = new LoginViewModel(),
+                DataContext = new MainWindowViewModel(),
             };
+
+            // desktop.MainWindow = new Login
+            // {
+            //     DataContext = new LoginViewModel(),
+            // };
         }
 
         base.OnFrameworkInitializationCompleted();

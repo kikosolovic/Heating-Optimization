@@ -11,8 +11,8 @@ namespace Heating_Optimization.Tests.ModelTests
         [Fact]
         public void SDMloader_WhenExecuted_LoadsSDMData()
         {
-            var data = DataLoader.LoadData<SDM>("../../../../Assets/SDMData.csv", ",");
-            Assert.True(data.Item1 != null && data.Item2 != null);
+            DataLoader.LoadData();
+            Assert.True(SDM.SummerPeriod != null && SDM.WinterPeriod != null);
         }
     }
 }

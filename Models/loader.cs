@@ -15,91 +15,97 @@ namespace Heating_Optimization.Models
     public static class DataLoader
     {
 
-
-        public static dynamic LoadData<T>(string path, string Delimiter)
+        public static void LoadPU()
         {
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = true,
-                Delimiter = Delimiter,
+                Delimiter = ";",
                 IgnoreBlankLines = true
             };
 
-            using (var reader = new StreamReader(path))
+            using (var reader = new StreamReader(Directory.GetCurrentDirectory() + "/Assets/PUData.csv"))
             using (var csv = new CsvReader(reader, config))
 
-                if (typeof(T) == typeof(AM))
+            {
+                for (int i = 0; i < 1; i++) reader.ReadLine();
+
+                while (csv.Read())
                 {
-                    var ProductionUnits = new List<PU>();
 
-                    for (int i = 0; i < 1; i++) reader.ReadLine();
-
-                    while (csv.Read())
+                    if (!string.IsNullOrWhiteSpace(csv.GetField(0)))
                     {
-
-                        if (!string.IsNullOrWhiteSpace(csv.GetField(0)))
+                        var productionData = new PU
                         {
-                            var productionData = new PU
-                            {
-                                Name = csv.GetField(0).Trim(),
-                                MaxHeat = double.Parse(csv.GetField(1).Trim()),
-                                Co2Emissions = double.Parse(csv.GetField(2).Trim()),
-                                FuelConsumption = double.Parse(csv.GetField(4).Trim()),
-                                TypeOfFuel = csv.GetField(3).Trim(),
-                                ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim()),
-                                ProductionCost = double.Parse(csv.GetField(6).Trim()),
-                                IsON = true
-                            }
-                            ;
-                            ProductionUnits.Add(productionData);
+                            Name = csv.GetField(0).Trim(),
+                            MaxHeat = double.Parse(csv.GetField(1).Trim()),
+                            Co2Emissions = double.Parse(csv.GetField(2).Trim()),
+                            FuelConsumption = double.Parse(csv.GetField(4).Trim()),
+                            TypeOfFuel = csv.GetField(3).Trim(),
+                            ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim()),
+                            ProductionCost = double.Parse(csv.GetField(6).Trim()),
+                            IsON = true
                         }
+                        ;
+                        AM.ProductionUnits.Add(productionData);
                     }
-
-                    return ProductionUnits;
-
                 }
-                // (typeof(T) == typeof(SDM)
-                else
-                {
-                    var WinterPeriod = new Dictionary<DateTime, HourlyData>();
-                    var SummerPeriod = new Dictionary<DateTime, HourlyData>();
-                    for (int i = 0; i < 3; i++) reader.ReadLine();
-
-                    while (csv.Read())
-                    {
-
-                        if (!string.IsNullOrWhiteSpace(csv.GetField(0)))
-                        {
-                            var winterData = new HourlyData
-                            {
-                                TimeFrom = DateTime.Parse(csv.GetField(0).Trim()),
-                                TimeTo = DateTime.Parse(csv.GetField(1).Trim()),
-                                HeatDemand = double.Parse(csv.GetField(2).Trim()),
-                                ElectricityPrice = double.Parse(csv.GetField(3).Trim())
-                            };
-                            WinterPeriod.Add(winterData.TimeFrom, winterData);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(csv.GetField(5)))
-                        {
-                            var summerData = new HourlyData
-                            {
-                                TimeFrom = DateTime.Parse(csv.GetField(5).Trim()),
-                                TimeTo = DateTime.Parse(csv.GetField(6).Trim()),
-                                HeatDemand = double.Parse(csv.GetField(7).Trim()),
-                                ElectricityPrice = double.Parse(csv.GetField(8).Trim())
-                            };
-                            SummerPeriod.Add(summerData.TimeFrom, summerData);
-
-                        }
-
-
-                    }
-                    return (WinterPeriod, SummerPeriod);
-                }
-
+            }
         }
+        public static void loadSDM()
+        {
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                Delimiter = ",",
+                IgnoreBlankLines = true
+            };
+
+            using (var reader = new StreamReader(Directory.GetCurrentDirectory() + "/Assets/SDMData.csv"))
+            using (var csv = new CsvReader(reader, config))
+
+            {
+                for (int i = 0; i < 3; i++) reader.ReadLine();
+
+                while (csv.Read())
+                {
+
+                    if (!string.IsNullOrWhiteSpace(csv.GetField(0)))
+                    {
+                        var winterData = new HourlyData
+                        {
+                            TimeFrom = DateTime.Parse(csv.GetField(0).Trim()),
+                            TimeTo = DateTime.Parse(csv.GetField(1).Trim()),
+                            HeatDemand = double.Parse(csv.GetField(2).Trim()),
+                            ElectricityPrice = double.Parse(csv.GetField(3).Trim())
+                        };
+                        SDM.WinterPeriod.Add(winterData.TimeFrom, winterData);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(csv.GetField(5)))
+                    {
+                        var summerData = new HourlyData
+                        {
+                            TimeFrom = DateTime.Parse(csv.GetField(5).Trim()),
+                            TimeTo = DateTime.Parse(csv.GetField(6).Trim()),
+                            HeatDemand = double.Parse(csv.GetField(7).Trim()),
+                            ElectricityPrice = double.Parse(csv.GetField(8).Trim())
+                        };
+                        SDM.SummerPeriod.Add(summerData.TimeFrom, summerData);
+
+                    }
+                }
+            }
+        }
+
+        public static void LoadData()
+        {
+            LoadPU();
+            loadSDM();
+        }
+
+
+
     }
 
 }
-

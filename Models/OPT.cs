@@ -17,15 +17,7 @@ namespace Heating_Optimization.Models
     public class OPT
     {
         private double ActualHeat = 0;
-        private AM _am;
-        private SDM _sdm;
 
-        // Constructor gets instances of AM and SDM
-        public OPT(AM am, SDM sdm)
-        {
-            _am = am;
-            _sdm = sdm;
-        }
 
         private HashSet<int> GetSelectedPUIds(int caseNumber)
         {
@@ -47,12 +39,12 @@ namespace Heating_Optimization.Models
                 Console.WriteLine($"No data found for {targetTime}");
                 return;
             }
-             
+
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
             List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> puResults2 = new();
 
-            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+            foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -70,7 +62,7 @@ namespace Heating_Optimization.Models
             ActualHeat = hourlyData.HeatDemand;
             for (int i = 0; i < sorted.Count; i++)
             {
-                if (sorted[i].MaxHeat <= ActualHeat & i!=sorted.Count)
+                if (sorted[i].MaxHeat <= ActualHeat & i != sorted.Count)
                 {
                     ActualHeat -= sorted[i].MaxHeat;
                     double TotalCost = sorted[i].MaxHeat * sorted[i].Result;
@@ -84,12 +76,12 @@ namespace Heating_Optimization.Models
                     double TotalHeat = ActualHeat;
                     double TotalCost = TotalHeat * sorted[i].Result;
                     double PercentageUsed = (100 * ActualHeat) / sorted[i].MaxHeat;
-                    double TotalCo2 =sorted[i].Co2*(PercentageUsed/100);
+                    double TotalCo2 = sorted[i].Co2 * (PercentageUsed / 100);
                     ActualHeat = 0;
                     puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
                 }
             }
-            if (ActualHeat!=0)
+            if (ActualHeat != 0)
             {
                 Console.WriteLine($"\n=== A TOTAL OF {ActualHeat:F2}MW CANNOT BE SATISFIED ===");
             }
@@ -120,7 +112,7 @@ namespace Heating_Optimization.Models
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+            foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -135,7 +127,7 @@ namespace Heating_Optimization.Models
                 Console.WriteLine($"> {item.Name} - CO2: {item.Co2}");
             }
 
-            
+
         }
 
         // Function to calculate average ranking between cost and CO2 emissions and print
@@ -151,7 +143,7 @@ namespace Heating_Optimization.Models
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+            foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -194,29 +186,29 @@ namespace Heating_Optimization.Models
         // Helper function to get HourlyData
         private HourlyData? GetHourlyData(DateTime targetTime)
         {
-            if (_sdm.WinterPeriod.ContainsKey(targetTime))
+            if (SDM.WinterPeriod.ContainsKey(targetTime))
             {
-                return _sdm.WinterPeriod[targetTime];
+                return SDM.WinterPeriod[targetTime];
             }
-            else if (_sdm.SummerPeriod.ContainsKey(targetTime))
+            else if (SDM.SummerPeriod.ContainsKey(targetTime))
             {
-                return _sdm.SummerPeriod[targetTime];
+                return SDM.SummerPeriod[targetTime];
             }
             return null;
         }
         private HashSet<int> GetUserInputHashSet()
-{
-    Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
-    string input = Console.ReadLine(); // Leer la entrada del usuario
-    
-    // Convertir la entrada en un HashSet de enteros
-    var inputArray = input.Split(',') // Separar la entrada por comas
-                           .Select(str => str.Trim()) // Eliminar espacios en blanco
-                           .Where(str => int.TryParse(str, out _)) // Filtrar solo números válidos
-                           .Select(int.Parse) // Convertir los strings a enteros
-                           .ToHashSet(); // Convertir a HashSet
+        {
+            Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
+            string input = Console.ReadLine(); // Leer la entrada del usuario
 
-    return inputArray;
-}
+            // Convertir la entrada en un HashSet de enteros
+            var inputArray = input.Split(',') // Separar la entrada por comas
+                                   .Select(str => str.Trim()) // Eliminar espacios en blanco
+                                   .Where(str => int.TryParse(str, out _)) // Filtrar solo números válidos
+                                   .Select(int.Parse) // Convertir los strings a enteros
+                                   .ToHashSet(); // Convertir a HashSet
+
+            return inputArray;
+        }
     }
 }

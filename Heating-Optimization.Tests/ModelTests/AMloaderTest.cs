@@ -12,8 +12,8 @@ namespace Heating_Optimization.Tests.ModelTests
         [Fact]
         public void AMloader_WhenExecuted_LoadsAMData()
         {
-            var data = DataLoader.LoadData<AM>("../../../../Assets/PUData.csv", ";");
-            Assert.True(data != null);
+            DataLoader.LoadData();
+            Assert.True(AM.ProductionUnits != null);
         }
     }
 }

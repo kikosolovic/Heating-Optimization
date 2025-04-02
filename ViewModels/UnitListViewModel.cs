@@ -15,9 +15,8 @@ public class UnitListViewModel : ReactiveObject
 
     public UnitListViewModel()
     {
-        AM am = new AM();
 
-        PUs = new ObservableCollection<PU>(am.ProductionUnits);
+        PUs = new ObservableCollection<PU>(AM.ProductionUnits);
         ToggleCommand = ReactiveCommand.Create(toggleChange);
 
     }

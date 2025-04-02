@@ -11,24 +11,24 @@ using System.Xml.Linq;
 
 namespace Heating_Optimization.Models
 {
-    public class AM
+    public static class AM
     {
-        private int _idCount = 1;
-        public string GridName { get; set; }
-        public string ImageUrl { get; set; }
+        private static int _idCount = 1;
+        public static string GridName { get; set; }
+        public static string ImageUrl { get; set; }
 
-        public List<PU> ProductionUnits { get; set; } = new List<PU>();
+        public static List<PU> ProductionUnits { get; set; } = new List<PU>();
 
-        public void RemovePU(int id)
+        public static void RemovePU(int id)
         {
-            this.ProductionUnits.RemoveAt(id);
+            ProductionUnits.RemoveAt(id);
         }
 
-        public AM()
-        {
-            // LoadData("Assets/PUData.csv");
-            ProductionUnits = DataLoader.LoadData<AM>(Directory.GetCurrentDirectory() + "/Assets/PUData.csv", ";");
+        // public AM()
+        // {
+        //     // LoadData("Assets/PUData.csv");
+        //     ProductionUnits = DataLoader.LoadData<AM>(Directory.GetCurrentDirectory() + "/Assets/PUData.csv", ";");
 
-        }
+        // }
     }
 }

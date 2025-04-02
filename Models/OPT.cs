@@ -205,7 +205,7 @@ namespace Heating_Optimization.Models
             return null;
         }
         private HashSet<int> GetUserInputHashSet()
-{
+        {
     Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
     string input = Console.ReadLine(); // Leer la entrada del usuario
     
@@ -217,6 +217,88 @@ namespace Heating_Optimization.Models
                            .ToHashSet(); // Convertir a HashSet
 
     return inputArray;
+        }
+        public void GenerateCSVForAllCases()
+{
+    for (int caseNumber = 1; caseNumber <= 3; caseNumber++)
+    {
+        HashSet<int> selectedPUIds = caseNumber == 3 ? GetUserInputHashSet() : GetSelectedPUIds(caseNumber);
+        string fileName = $"ProductionCost_Case{caseNumber}.csv";
+        
+        using (StreamWriter writer = new StreamWriter(fileName))
+        {
+            writer.WriteLine("Date;Period;Id;Name;TotalHeat;PercentageUsed;TotalCO2;TotalCost");
+
+            // Collect all unique timestamps from both Winter and Summer periods
+            HashSet<DateTime> allTimestamps = new HashSet<DateTime>(_sdm.WinterPeriod.Keys.Concat(_sdm.SummerPeriod.Keys));
+
+            foreach (var timestamp in allTimestamps)
+            {
+                HourlyData? hourlyData = GetHourlyData(timestamp);
+                if (hourlyData == null) continue;
+
+                string period = _sdm.WinterPeriod.ContainsKey(timestamp) ? "Winter" : "Summer";
+                
+                List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> results =
+                    SortByProductionCostForCSV(timestamp, caseNumber, selectedPUIds);
+                
+                foreach (var item in results)
+                {
+                    writer.WriteLine($"{timestamp:dd-MM-yyyy HH:mm};{period};{item.Id};{item.Name};{item.TotalHeat:F2};{item.PercentageUsed:F2};{item.TotalCo2:F2};{item.TotalCost:F2}");
+                }
+            }
+        }
+
+        Console.WriteLine($"CSV file generated: {fileName}");
+    }
 }
+private List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> 
+    SortByProductionCostForCSV(DateTime targetTime, int caseNumber, HashSet<int> selectedPUIds)
+{
+    HourlyData? hourlyData = GetHourlyData(targetTime);
+    if (hourlyData == null)
+    {
+        Console.WriteLine($"No data found for {targetTime}");
+        return new List<(int, string, double, double, double, double)>();
+    }
+
+    List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
+    List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> puResults2 = new();
+
+    foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+    {
+        double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
+        double co2 = pu.Co2Emissions;
+        puResults.Add((pu.Id, pu.Name, result, co2, pu.MaxHeat));
+    }
+
+    var sorted = puResults.OrderBy(r => r.Result).ToList();
+    double ActualHeat = hourlyData.HeatDemand;
+
+    for (int i = 0; i < sorted.Count; i++)
+    {
+        if (sorted[i].MaxHeat <= ActualHeat)
+        {
+            ActualHeat -= sorted[i].MaxHeat;
+            double TotalCost = sorted[i].MaxHeat * sorted[i].Result;
+            double PercentageUsed = 100;
+            double TotalCo2 = sorted[i].Co2;
+            double TotalHeat = sorted[i].MaxHeat;
+            puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
+        }
+        else
+        {
+            double TotalHeat = ActualHeat;
+            double TotalCost = TotalHeat * sorted[i].Result;
+            double PercentageUsed = (100 * ActualHeat) / sorted[i].MaxHeat;
+            double TotalCo2 = sorted[i].Co2 * (PercentageUsed / 100);
+            ActualHeat = 0;
+            puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
+        }
+    }
+
+    return puResults2;
+}
+
     }
 }

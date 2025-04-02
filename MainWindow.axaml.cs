@@ -15,7 +15,7 @@ public partial class MainWindow : Window
         OPT opt = new OPT(am, sdm);
         
         InitializeComponent();
-
+opt.GenerateCSVForAllCases();
         Console.WriteLine("Which Scenario would you like to implemet?");
 Console.WriteLine("- Scenario 1");
 Console.WriteLine("- Scenario 2");

@@ -30,7 +30,7 @@ namespace Heating_Optimization.Models
             };
         }
 
-        // Function to calculate production costs and print sorted list by cost
+        // Function to calculate production costs and automatically manage unit states
         public void SortByProductionCost(DateTime targetTime, int caseNumber)
         {
             HourlyData? hourlyData = GetHourlyData(targetTime);
@@ -39,6 +39,7 @@ namespace Heating_Optimization.Models
                 Console.WriteLine($"No data found for {targetTime}");
                 return;
             }
+
 
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
@@ -64,12 +65,14 @@ namespace Heating_Optimization.Models
             {
                 if (sorted[i].MaxHeat <= ActualHeat & i != sorted.Count)
                 {
-                    ActualHeat -= sorted[i].MaxHeat;
-                    double TotalCost = sorted[i].MaxHeat * sorted[i].Result;
-                    double PercentageUsed = 100;
-                    double TotalCo2 = sorted[i].Co2;
-                    double TotalHeat = sorted[i].MaxHeat;
-                    puResults2.Add((sorted[i].Id, sorted[i].Name, TotalHeat, PercentageUsed, TotalCo2, TotalCost));
+                    double usedHeat = Math.Min(ActualHeat, sorted[i].MaxHeat);
+                    ActualHeat -= usedHeat;
+                    double percentageUsed = (usedHeat / sorted[i].MaxHeat) * 100;
+                    double totalCost = usedHeat * sorted[i].Result;
+                    double totalCo2 = sorted[i].Co2 * (percentageUsed / 100);
+
+                    pu.IsOn = true;
+                    puResults2.Add((sorted[i].Id, sorted[i].Name, usedHeat, percentageUsed, totalCo2, totalCost));
                 }
                 else
                 {
@@ -85,10 +88,12 @@ namespace Heating_Optimization.Models
             {
                 Console.WriteLine($"\n=== A TOTAL OF {ActualHeat:F2}MW CANNOT BE SATISFIED ===");
             }
+
             foreach (var cost in puResults2)
             {
                 TotalPrice += cost.TotalCost;
             }
+
             Console.WriteLine($"\n=== Sorted by Production Cost (Case {caseNumber}) ===");
             foreach (var item in puResults2)
             {
@@ -99,7 +104,6 @@ namespace Heating_Optimization.Models
             Console.WriteLine($"\n=== Total Spent (Case {caseNumber})= {TotalPrice} kr===");
         }
 
-        // Function to rank units by CO2 emissions and print
         public void RankByCO2Emissions(DateTime targetTime, int caseNumber)
         {
             HourlyData? hourlyData = GetHourlyData(targetTime);
@@ -130,7 +134,6 @@ namespace Heating_Optimization.Models
 
         }
 
-        // Function to calculate average ranking between cost and CO2 emissions and print
         public void CalculateAverageRanking(DateTime targetTime, int caseNumber)
         {
             HourlyData? hourlyData = GetHourlyData(targetTime);
@@ -183,7 +186,6 @@ namespace Heating_Optimization.Models
             }
         }
 
-        // Helper function to get HourlyData
         private HourlyData? GetHourlyData(DateTime targetTime)
         {
             if (SDM.WinterPeriod.ContainsKey(targetTime))
@@ -196,6 +198,7 @@ namespace Heating_Optimization.Models
             }
             return null;
         }
+
         private HashSet<int> GetUserInputHashSet()
         {
             Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
@@ -210,5 +213,7 @@ namespace Heating_Optimization.Models
 
             return inputArray;
         }
-    }
+            return inputArray;
+        }
+}
 }

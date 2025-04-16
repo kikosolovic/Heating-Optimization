@@ -71,7 +71,7 @@ namespace Heating_Optimization.Models
                     double totalCost = usedHeat * sorted[i].Result;
                     double totalCo2 = sorted[i].Co2 * (percentageUsed / 100);
 
-                    pu.IsOn = true;
+                    // pu.IsOn = true;
                     puResults2.Add((sorted[i].Id, sorted[i].Name, usedHeat, percentageUsed, totalCo2, totalCost));
                 }
                 else
@@ -213,7 +213,6 @@ namespace Heating_Optimization.Models
 
             return inputArray;
         }
-            return inputArray;
-        }
-}
+
+    }
 }

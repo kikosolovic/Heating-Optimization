@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:Heating_Optimization.ViewModels"
+             xmlns:models="using:Heating_Optimization.Models"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="Heating_Optimization.Views.UnitList"
+             x:DataType="vm:UnitListViewModel">
+
+<StackPanel>
+  <ScrollViewer VerticalScrollBarVisibility="Visible" Height="1080">
+  <ItemsControl ItemsSource="{Binding PUs}">
+    
+    <ItemsControl.ItemTemplate>
+      <DataTemplate x:DataType="models:PU">
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="0,10">
+                            <StackPanel Margin="10">
+
+                                
+                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" />
+                    <TextBlock Text="{Binding MaxHeat, StringFormat='Max Heat: {0} MW'}" />
+                    <TextBlock Text="{Binding Co2Emissions, StringFormat='CO₂ Emissions: {0} kg'}" />
+                    <TextBlock Text="{Binding FuelConsumption, StringFormat='Fuel Consumption: {0} L'}" />
+                    <TextBlock Text="{Binding TypeOfFuel, StringFormat='Fuel Type: {0}'}" />
+                    <TextBlock Text="{Binding ElectricityProductionPerMW, StringFormat='Electricity per MW: {0} kWh'}" />
+                    <TextBlock Text="{Binding ProductionCost, StringFormat='Production Cost: {0:C}'}" />
+
+                    <ToggleSwitch IsChecked="{Binding IsON}" Command="{Binding toggle}" />
+
+
+
+                            </StackPanel>
+                        </Border>
+      </DataTemplate>
+      </ItemsControl.ItemTemplate>
+
+    </ItemsControl>
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>

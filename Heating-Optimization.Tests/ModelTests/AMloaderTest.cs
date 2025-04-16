@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Heating_Optimization.Models;
+using Xunit;
 
 
 namespace Heating_Optimization.Tests.ModelTests
@@ -12,8 +13,8 @@ namespace Heating_Optimization.Tests.ModelTests
         [Fact]
         public void AMloader_WhenExecuted_LoadsAMData()
         {
-            var data = DataLoader.LoadData<AM>("../../../../Assets/PUData.csv", ";");
-            Assert.True(data != null);
+            DataLoader.LoadData();
+            Assert.True(AM.ProductionUnits != null);
         }
     }
 }

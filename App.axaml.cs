@@ -13,27 +13,26 @@ public partial class App : Application
 {
     public override void Initialize()
     {
-        SDM sdm = new SDM();
-        AM am = new AM();
-        Console.WriteLine("electricity production for PU nm 2");
-        // Console.WriteLine(am.ProductionUnits[3].ElectricityProduction);
-        Console.WriteLine("electricity price for 8/11/2024 0:00");
-        // Console.WriteLine(sdm.SummerPeriod[DateTime.Parse("8/11/2024 0:00")].ElectricityPrice);
-        Console.WriteLine(sdm.SummerPeriod.Count);
-
 
         AvaloniaXamlLoader.Load(this);
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
+        DataLoader.LoadData();
+        Console.WriteLine(SDM.SummerPeriod.Count);
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // desktop.MainWindow = new MainWindow();
-            desktop.MainWindow = new Login
+            desktop.MainWindow = new MainWindow
             {
-                DataContext = new LoginViewModel(),
+                DataContext = new MainWindowViewModel(),
             };
+
+            // desktop.MainWindow = new Login
+            // {
+            //     DataContext = new LoginViewModel(),
+            // };
         }
 
         base.OnFrameworkInitializationCompleted();

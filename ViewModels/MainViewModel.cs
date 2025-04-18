@@ -218,14 +218,15 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
     [ObservableProperty]
     private List<Axis> yAxis = new()
 {
-    new Axis { Name = "Values" }
+
+    new Axis {Name = "Values"}
 };
 
     [ObservableProperty]
     private List<Axis> xAxis = new();
     public ObservableCollection<string> AvailableDates { get; } = new();
     public ObservableCollection<string> AvailableMetrics { get; } =
-        new() { "TotalCO2", "TotalCost", "PercentageUsed" };
+        new() { "Total CO²", "Total Cost", "Percentage of PU Used" };
 
     [ObservableProperty]
     private string selectedDate;
@@ -264,9 +265,9 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
                                         .OrderBy(d => d.Date)
                                         .Select(d => SelectedMetric switch
                                         {
-                                            "TotalCO2" => d.TotalCO2,
-                                            "TotalCost" => d.TotalCost,
-                                            "PercentageUsed" => d.PercentageUsed,
+                                            "Total CO²" => d.TotalCO2,
+                                            "Total Cost" => d.TotalCost,
+                                            "Percentage of PU Used" => d.PercentageUsed,
                                             _ => 0
                                         }).ToList();
 
@@ -277,9 +278,16 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
             });
         }
 
+        YAxis.Clear();
+        YAxis.Add(new Axis
+        {
+            Name = SelectedMetric
+        });
+
         XAxis.Clear();
         XAxis.Add(new Axis
         {
+            Name = "Time",
             Labels = dataForDate.OrderBy(d => d.Date)
                                 .Select(d => d.Hour)
                                 .Distinct()

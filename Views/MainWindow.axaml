@@ -84,20 +84,20 @@
 			<!-- Filter Part-->
 			<Rectangle Grid.Column="3" Fill="#D9D9D9" Width="0">	</Rectangle>
 			<!-- Detailed graph Part-->
-			<lvc:CartesianChart Grid.Column="4" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}" Height="400">
+			<lvc:CartesianChart Grid.Column="4" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"  >
 			</lvc:CartesianChart>
 			
 		</Grid>
 	<!--Bottom Part-->
 		<Grid Grid.Row="3"  Height="50" ColumnDefinitions="Auto, Auto, *, Auto, *, Auto, Auto">
 			<Rectangle Grid.Column="0" Width="50">	</Rectangle>
-			<ComboBox Grid.Column="1" ItemsSource="{Binding AvailableMetrics}"
+			<ComboBox Grid.Column="5" ItemsSource="{Binding AvailableMetrics}"
           SelectedItem="{Binding SelectedMetric}" Margin="0,10,0,0" Width="200"/>
 			<Rectangle Grid.Column="2" >	</Rectangle>
 			<ComboBox Grid.Column="3" ItemsSource="{Binding AvailableDates}"
           SelectedItem="{Binding SelectedDate}" Margin="0,10,0,0" Width="200"/>
 			<Rectangle Grid.Column="4" >	</Rectangle>
-			<ComboBox Grid.Column="5" Margin="5" VerticalAlignment="Center" CornerRadius="10"
+			<ComboBox Grid.Column="1" Margin="1" VerticalAlignment="Center" CornerRadius="10"
           ItemsSource="{Binding ScenarioOptions}"
           SelectedItem="{Binding SelectedScenario, Mode=TwoWay}">
 </ComboBox>

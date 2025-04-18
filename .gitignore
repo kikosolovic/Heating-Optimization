@@ -1,6 +1,9 @@
 # .NET Build Folders
 /bin/
 /obj/
+/Heating-Optimization.Tests/bin/
+/Heating-Optimization.Tests/obj/
+
 
 # User-specific files
 .vs/

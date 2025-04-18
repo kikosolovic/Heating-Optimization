@@ -17,15 +17,8 @@ namespace Heating_Optimization.Models
     public class OPT
     {
         private double ActualHeat = 0;
-        private AM _am;
-        private SDM _sdm;
 
         // Constructor gets instances of AM and SDM
-        public OPT(AM am, SDM sdm)
-        {
-            _am = am;
-            _sdm = sdm;
-        }
 
         private HashSet<int> GetSelectedPUIds(int caseNumber)
         {
@@ -52,7 +45,7 @@ namespace Heating_Optimization.Models
             List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
             List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> puResults2 = new();
 
-            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+            foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -120,7 +113,7 @@ namespace Heating_Optimization.Models
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+            foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -151,7 +144,7 @@ namespace Heating_Optimization.Models
             HashSet<int> selectedPUIds = GetSelectedPUIds(caseNumber);
             List<(string Name, double Result, double Co2)> puResults = new();
 
-            foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+            foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
             {
                 double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
                 double co2 = pu.Co2Emissions;
@@ -194,66 +187,32 @@ namespace Heating_Optimization.Models
         // Helper function to get HourlyData
         private HourlyData? GetHourlyData(DateTime targetTime)
         {
-            if (_sdm.WinterPeriod.ContainsKey(targetTime))
+            if (SDM.WinterPeriod.ContainsKey(targetTime))
             {
-                return _sdm.WinterPeriod[targetTime];
+                return SDM.WinterPeriod[targetTime];
             }
-            else if (_sdm.SummerPeriod.ContainsKey(targetTime))
+            else if (SDM.SummerPeriod.ContainsKey(targetTime))
             {
-                return _sdm.SummerPeriod[targetTime];
+                return SDM.SummerPeriod[targetTime];
             }
             return null;
         }
         private HashSet<int> GetUserInputHashSet()
         {
     Console.WriteLine("Insert the ID of the machines separated by ',' (Example3: 1,3,4):");
-    string input = Console.ReadLine(); // Leer la entrada del usuario
-    
-    // Convertir la entrada en un HashSet de enteros
-    var inputArray = input.Split(',') // Separar la entrada por comas
-                           .Select(str => str.Trim()) // Eliminar espacios en blanco
-                           .Where(str => int.TryParse(str, out _)) // Filtrar solo números válidos
-                           .Select(int.Parse) // Convertir los strings a enteros
-                           .ToHashSet(); // Convertir a HashSet
+    string input = Console.ReadLine(); 
+
+    var inputArray = input.Split(',') 
+                           .Select(str => str.Trim()) 
+                           .Where(str => int.TryParse(str, out _)) 
+                           .Select(int.Parse) 
+                           .ToHashSet();
 
     return inputArray;
         }
-        public void GenerateCSVForAllCases()
-{
-    for (int caseNumber = 1; caseNumber <= 3; caseNumber++)
-    {
-        HashSet<int> selectedPUIds = caseNumber == 3 ? GetUserInputHashSet() : GetSelectedPUIds(caseNumber);
-        string fileName = $"ProductionCost_Case{caseNumber}.csv";
         
-        using (StreamWriter writer = new StreamWriter(fileName))
-        {
-            writer.WriteLine("Date;Period;Id;Name;TotalHeat;PercentageUsed;TotalCO2;TotalCost");
-
-            // Collect all unique timestamps from both Winter and Summer periods
-            HashSet<DateTime> allTimestamps = new HashSet<DateTime>(_sdm.WinterPeriod.Keys.Concat(_sdm.SummerPeriod.Keys));
-
-            foreach (var timestamp in allTimestamps)
-            {
-                HourlyData? hourlyData = GetHourlyData(timestamp);
-                if (hourlyData == null) continue;
-
-                string period = _sdm.WinterPeriod.ContainsKey(timestamp) ? "Winter" : "Summer";
-                
-                List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> results =
-                    SortByProductionCostForCSV(timestamp, caseNumber, selectedPUIds);
-                
-                foreach (var item in results)
-                {
-                    writer.WriteLine($"{timestamp:dd-MM-yyyy HH:mm};{period};{item.Id};{item.Name};{item.TotalHeat:F2};{item.PercentageUsed:F2};{item.TotalCo2:F2};{item.TotalCost:F2}");
-                }
-            }
-        }
-
-        Console.WriteLine($"CSV file generated: {fileName}");
-    }
-}
 private List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> 
-    SortByProductionCostForCSV(DateTime targetTime, int caseNumber, HashSet<int> selectedPUIds)
+     SortByProductionCostForCSV(DateTime targetTime, HashSet<int> selectedPUIds)
 {
     HourlyData? hourlyData = GetHourlyData(targetTime);
     if (hourlyData == null)
@@ -265,7 +224,7 @@ private List<(int Id, string Name, double TotalHeat, double PercentageUsed, doub
     List<(int Id, string Name, double Result, double Co2, double MaxHeat)> puResults = new();
     List<(int Id, string Name, double TotalHeat, double PercentageUsed, double TotalCo2, double TotalCost)> puResults2 = new();
 
-    foreach (var pu in _am.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
+    foreach (var pu in AM.ProductionUnits.Where(pu => selectedPUIds.Contains(pu.Id)))
     {
         double result = pu.ProductionCost - (pu.ElectricityProductionPerMW * hourlyData.ElectricityPrice);
         double co2 = pu.Co2Emissions;
@@ -299,6 +258,49 @@ private List<(int Id, string Name, double TotalHeat, double PercentageUsed, doub
 
     return puResults2;
 }
+public void GenerateCSVForSelectedMachines(HashSet<int> selectedPUIds, string fileName)
+{
+    using (StreamWriter writer = new StreamWriter(fileName))
+    {
+        writer.WriteLine("Date;Period;Id;Name;TotalHeat;PercentageUsed;TotalCO2;TotalCost");
+
+        // Collect all unique timestamps from both Winter and Summer periods
+        HashSet<DateTime> allTimestamps = new HashSet<DateTime>(
+            SDM.WinterPeriod.Keys.Concat(SDM.SummerPeriod.Keys));
+
+        foreach (var timestamp in allTimestamps)
+        {
+            HourlyData? hourlyData = GetHourlyData(timestamp);
+            if (hourlyData == null) continue;
+
+            string period = SDM.WinterPeriod.ContainsKey(timestamp) ? "Winter" : "Summer";
+
+            // Ya no usamos caseNumber
+            var results = SortByProductionCostForCSV(timestamp, selectedPUIds);
+
+            foreach (var item in results)
+            {
+                writer.WriteLine($"{timestamp:dd-MM-yyyy HH:mm};{period};{item.Id};{item.Name};{item.TotalHeat:F2};{item.PercentageUsed:F2};{item.TotalCo2:F2};{item.TotalCost:F2}");
+            }
+        }
+    }
+}
+
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

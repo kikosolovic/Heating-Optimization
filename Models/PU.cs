@@ -16,6 +16,13 @@ namespace Heating_Optimization.Models
         public double ElectricityProductionPerMW { get; set; }
         public double ProductionCost { get; set; }
         public int Id { get; set; }
+        public Boolean IsON { get; set; }
+
+        public void toggle()
+        {
+            IsON = !IsON;
+            Console.WriteLine(IsON);
+        }
 
     }
 }

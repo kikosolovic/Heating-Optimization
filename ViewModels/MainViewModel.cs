@@ -7,11 +7,41 @@ using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.IO;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Heating_Optimization;
 
 public partial class MainViewModel : ObservableObject
 {
+    public ISeries[] Series { get; set; } = [
+        new LineSeries<double>
+        {
+            Values = [2, 1, 3, 5, 3, 4, 6],
+            Fill = null,
+            GeometrySize = 20
+        },
+        new LineSeries<int, StarGeometry>
+        {
+            Values = [4, 2, 5, 2, 4, 5, 3],
+            Fill = null,
+            GeometrySize = 20,
+        }
+    ];
+
+    public LabelVisual Title { get; set; } =
+        new LabelVisual
+        {
+            Text = "My chart title",
+            TextSize = 25,
+            Padding = new LiveChartsCore.Drawing.Padding(15)
+        };
+
+
     public DateTime MinDateRange1 => new DateTime(2024, 03, 01);
     public DateTime MaxDateRange1 => new DateTime(2024, 03, 14);
 
@@ -38,6 +68,7 @@ public partial class MainViewModel : ObservableObject
     {
         ToggleMachineSelectionCommand.Execute((0, value));
         GenerateCsvOnChange();
+        UpdateChart();
     }
 
     [ObservableProperty]
@@ -45,7 +76,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked2Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((1, value));
-        GenerateCsvOnChange();
+        UpdateChart();
     }
 
     [ObservableProperty]
@@ -53,7 +84,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked3Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((2, value));
-        GenerateCsvOnChange();
+        UpdateChart();
     }
 
     [ObservableProperty]
@@ -61,7 +92,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked4Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((3, value));
-        GenerateCsvOnChange();
+        UpdateChart();
     }
 
     [ObservableProperty]
@@ -69,7 +100,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked5Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((4, value));
-        GenerateCsvOnChange();
+        UpdateChart();
     }
 
     [RelayCommand]
@@ -85,35 +116,144 @@ public partial class MainViewModel : ObservableObject
     }
     private readonly OPT _optimizer;
 
-public MainViewModel(OPT optimizer)
-{
-    _optimizer = optimizer;
-}
-    
+    public MainViewModel(OPT optimizer)
+    {
+        _optimizer = optimizer;
+        AllData = LoadCsv("ProductionCost_Selected.csv");
+
+        var uniqueDates = AllData.Select(d => d.Day).Distinct();
+        foreach (var date in uniqueDates)
+            AvailableDates.Add(date);
+
+        SelectedDate = AvailableDates.FirstOrDefault();
+        SelectedMetric = AvailableMetrics.FirstOrDefault();
+
+        UpdateChart();
+    }
+
 
     [RelayCommand]
-private void GenerateCsvOnChange()
+    private void GenerateCsvOnChange()
     {
         string fileName = $"ProductionCost_Selected.csv";
 
         if (SelectedMachines.Count == 0)
         {
             if (File.Exists(fileName))
-        {
-            File.Delete(fileName);
-            Console.WriteLine($"CSV file {fileName} was deleted because no machines were selected.");
-        }
-        else
-        {
-            Console.WriteLine("No machines selected.");
-        }
-        return;
+            {
+                File.Delete(fileName);
+                Console.WriteLine($"CSV file {fileName} was deleted because no machines were selected.");
+            }
+            else
+            {
+                Console.WriteLine("No machines selected.");
+            }
+            return;
         }
 
-        
+
         _optimizer.GenerateCSVForSelectedMachines(SelectedMachines, fileName);
 
         Console.WriteLine($"CSV successfully generated: {fileName}");
+    }
+
+
+
+    [ObservableProperty]
+    private List<Axis> yAxis = new()
+{
+    new Axis { Name = "Values" }
+};
+
+    [ObservableProperty]
+    private List<Axis> xAxis = new();
+    public ObservableCollection<string> AvailableDates { get; } = new();
+    public ObservableCollection<string> AvailableMetrics { get; } =
+        new() { "TotalCO2", "TotalCost", "PercentageUsed" };
+
+    [ObservableProperty]
+    private string selectedDate;
+
+    [ObservableProperty]
+    private string selectedMetric;
+
+    [ObservableProperty]
+    private ObservableCollection<ISeries> seriesCollection = new();
+
+    [ObservableProperty]
+    private List<string> labels;
+
+    public List<ProductionData> AllData { get; set; }
+
+   
+
+
+    partial void OnSelectedDateChanged(string value) => UpdateChart();
+    partial void OnSelectedMetricChanged(string value) => UpdateChart();
+
+    private void UpdateChart()
+    {
+        GenerateCsvOnChange();
+        AllData = LoadCsv("ProductionCost_Selected.csv");
+        if (SelectedDate == null || SelectedMetric == null) return;
+
+        var dataForDate = AllData.Where(d => d.Day == SelectedDate).ToList();
+        var names = dataForDate.Select(d => d.Name).Distinct();
+
+        SeriesCollection.Clear();
+
+        foreach (var name in names)
+        {
+            var dataPoints = dataForDate.Where(d => d.Name == name)
+                                        .OrderBy(d => d.Date)
+                                        .Select(d => SelectedMetric switch
+                                        {
+                                            "TotalCO2" => d.TotalCO2,
+                                            "TotalCost" => d.TotalCost,
+                                            "PercentageUsed" => d.PercentageUsed,
+                                            _ => 0
+                                        }).ToList();
+
+            SeriesCollection.Add(new LineSeries<double>
+            {
+                Name = name,
+                Values = new ObservableCollection<double>(dataPoints)
+            });
+        }
+
+        XAxis.Clear();
+        XAxis.Add(new Axis
+        {
+            Labels = dataForDate.OrderBy(d => d.Date)
+                                .Select(d => d.Hour)
+                                .Distinct()
+                                .ToList()
+        });
+    }
+
+    private List<ProductionData> LoadCsv(string path)
+    {
+        if (!File.Exists(path)) return new List<ProductionData>();
+
+        var lines = File.ReadAllLines(path).Skip(1);
+        var data = new List<ProductionData>();
+
+        foreach (var line in lines)
+        {
+            var parts = line.Split(';');
+            data.Add(new ProductionData
+            {
+                Date = DateTime.ParseExact(parts[0], "dd-MM-yyyy HH:mm", null),
+                Period = parts[1],
+                Id = int.Parse(parts[2]),
+                Name = parts[3],
+                TotalHeat = double.Parse(parts[4]),
+                PercentageUsed = double.Parse(parts[5]),
+                TotalCO2 = double.Parse(parts[6]),
+                TotalCost = double.Parse(parts[7])
+            });
+        }
+        return data;
     }
 
 }

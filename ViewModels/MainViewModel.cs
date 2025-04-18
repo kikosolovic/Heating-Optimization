@@ -18,6 +18,57 @@ namespace Heating_Optimization;
 
 public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty]
+private string selectedScenario;
+
+partial void OnSelectedScenarioChanged(string value)
+{
+    switch (value)
+    {
+        case "Escenario 1":
+            IsChecked1 = true;
+            IsChecked2 = true;
+            IsChecked3 = true;
+            IsChecked4 = false;
+            IsChecked5 = false;
+            break;
+
+        case "Escenario 2":
+            IsChecked1 = true;
+            IsChecked2 = false;
+            IsChecked3 = true;
+            IsChecked4 = true;
+            IsChecked5 = true;
+            break;
+
+        case "Own Machines":
+            break;
+    }
+}
+private void UpdateScenario()
+{
+    // Si coincide con Escenario 1
+    if (IsChecked1 && IsChecked2 && IsChecked3 && !IsChecked4 && !IsChecked5)
+    {
+        SelectedScenario = "Escenario 1";
+    }
+    // Si coincide con Escenario 2
+    else if (IsChecked1 && !IsChecked2 && IsChecked3 && IsChecked4 && IsChecked5)
+    {
+        SelectedScenario = "Escenario 2";
+    }
+    // Si no coincide con ninguno, Own Machines
+    else
+    {
+        SelectedScenario = "Own Machines";
+    }
+}
+public ObservableCollection<string> ScenarioOptions { get; } = new()
+{
+    "Escenario 1",
+    "Escenario 2",
+    "Own Machines"
+};
     public ISeries[] Series { get; set; } = [
         new LineSeries<double>
         {
@@ -67,7 +118,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked1Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((0, value));
-        GenerateCsvOnChange();
+        UpdateScenario();
         UpdateChart();
     }
 
@@ -76,6 +127,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked2Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((1, value));
+        UpdateScenario();
         UpdateChart();
     }
 
@@ -84,6 +136,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked3Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((2, value));
+        UpdateScenario();
         UpdateChart();
     }
 
@@ -92,6 +145,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked4Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((3, value));
+        UpdateScenario();
         UpdateChart();
     }
 
@@ -100,6 +154,7 @@ public partial class MainViewModel : ObservableObject
     partial void OnIsChecked5Changed(bool value)
     {
         ToggleMachineSelectionCommand.Execute((4, value));
+        UpdateScenario();
         UpdateChart();
     }
 
@@ -119,6 +174,7 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(OPT optimizer)
     {
         _optimizer = optimizer;
+        SelectedScenario = "Escenario 1";
         AllData = LoadCsv("ProductionCost_Selected.csv");
 
         var uniqueDates = AllData.Select(d => d.Day).Distinct();

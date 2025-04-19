@@ -13,57 +13,59 @@ using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using System.Collections.ObjectModel;
 using System.Linq;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
 
 namespace Heating_Optimization;
 
 public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty]
-private string selectedScenario;
+    private string selectedScenario;
 
-partial void OnSelectedScenarioChanged(string value)
-{
-    switch (value)
+    partial void OnSelectedScenarioChanged(string value)
     {
-        case "Escenario 1":
-            IsChecked1 = true;
-            IsChecked2 = true;
-            IsChecked3 = true;
-            IsChecked4 = false;
-            IsChecked5 = false;
-            break;
+        switch (value)
+        {
+            case "Escenario 1":
+                IsChecked1 = true;
+                IsChecked2 = true;
+                IsChecked3 = true;
+                IsChecked4 = false;
+                IsChecked5 = false;
+                break;
 
-        case "Escenario 2":
-            IsChecked1 = true;
-            IsChecked2 = false;
-            IsChecked3 = true;
-            IsChecked4 = true;
-            IsChecked5 = true;
-            break;
+            case "Escenario 2":
+                IsChecked1 = true;
+                IsChecked2 = false;
+                IsChecked3 = true;
+                IsChecked4 = true;
+                IsChecked5 = true;
+                break;
 
-        case "Own Machines":
-            break;
+            case "Own Machines":
+                break;
+        }
     }
-}
-private void UpdateScenario()
-{
-    // Si coincide con Escenario 1
-    if (IsChecked1 && IsChecked2 && IsChecked3 && !IsChecked4 && !IsChecked5)
+    private void UpdateScenario()
     {
-        SelectedScenario = "Escenario 1";
+        // Si coincide con Escenario 1
+        if (IsChecked1 && IsChecked2 && IsChecked3 && !IsChecked4 && !IsChecked5)
+        {
+            SelectedScenario = "Escenario 1";
+        }
+        // Si coincide con Escenario 2
+        else if (IsChecked1 && !IsChecked2 && IsChecked3 && IsChecked4 && IsChecked5)
+        {
+            SelectedScenario = "Escenario 2";
+        }
+        // Si no coincide con ninguno, Own Machines
+        else
+        {
+            SelectedScenario = "Own Machines";
+        }
     }
-    // Si coincide con Escenario 2
-    else if (IsChecked1 && !IsChecked2 && IsChecked3 && IsChecked4 && IsChecked5)
-    {
-        SelectedScenario = "Escenario 2";
-    }
-    // Si no coincide con ninguno, Own Machines
-    else
-    {
-        SelectedScenario = "Own Machines";
-    }
-}
-public ObservableCollection<string> ScenarioOptions { get; } = new()
+    public ObservableCollection<string> ScenarioOptions { get; } = new()
 {
     "Escenario 1",
     "Escenario 2",
@@ -242,7 +244,7 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
 
     public List<ProductionData> AllData { get; set; }
 
-   
+
 
 
     partial void OnSelectedDateChanged(string value) => UpdateChart();
@@ -259,6 +261,13 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
 
         SeriesCollection.Clear();
 
+        var hours = dataForDate.OrderBy(d => d.Date)
+                           .Select(d => d.Hour)
+                           .Distinct()
+                           .ToList();
+
+        var totalByHour = hours.ToDictionary(h => h, h => 0.0);
+
         foreach (var name in names)
         {
             var dataPoints = dataForDate.Where(d => d.Name == name)
@@ -270,6 +279,11 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
                                             "Percentage of PU Used" => d.PercentageUsed,
                                             _ => 0
                                         }).ToList();
+            for (int i = 0; i < dataPoints.Count; i++)
+            {
+                var hour = hours[i];
+                totalByHour[hour] += dataPoints[i];
+            }
 
             SeriesCollection.Add(new LineSeries<double>
             {
@@ -277,6 +291,16 @@ public ObservableCollection<string> ScenarioOptions { get; } = new()
                 Values = new ObservableCollection<double>(dataPoints)
             });
         }
+        var totalValues = hours.Select(h => totalByHour[h]).ToList();
+
+        SeriesCollection.Add(new LineSeries<double>
+        {
+            Name = "Total",
+            Values = new ObservableCollection<double>(totalValues),
+            Stroke = new SolidColorPaint(new SKColor(220, 20, 60)) { StrokeThickness = 2 },
+            Fill = null,
+            GeometrySize = 0
+        });
 
         YAxis.Clear();
         YAxis.Add(new Axis

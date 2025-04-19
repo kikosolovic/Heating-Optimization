@@ -84,7 +84,7 @@
 			<!-- Filter Part-->
 			<Rectangle Grid.Column="3" Fill="#D9D9D9" Width="0">	</Rectangle>
 			<!-- Detailed graph Part-->
-			<lvc:CartesianChart Grid.Column="4" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"  >
+			<lvc:CartesianChart Grid.Column="4" Margin="0,40,0,80" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"  >
 			</lvc:CartesianChart>
 			
 		</Grid>

@@ -20,7 +20,7 @@
 	 
 	<Grid RowDefinitions="Auto, Auto, *, Auto">
 		<!-- Top Part-->
-		<Grid Grid.Row="0"  Height="65" ColumnDefinitions="Auto, *, Auto, *, Auto">
+		<Grid Grid.Row="0"  Height="65" ColumnDefinitions="Auto, *, Auto, *">
 			<Rectangle Grid.Column="0"  Width="240">
 				<Rectangle.Fill>
 					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/danfoss.png" Stretch="UniformToFill"/>
@@ -44,64 +44,23 @@
 				</Style>
 			</Grid.Styles>
 			<Rectangle Grid.Column="0" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="1" Content="Main Screen" CornerRadius="25" Background="#BF0000"  Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="1" Content="Main Screen" CornerRadius="25" Background="#BF0000"  Padding="15.8" Command="{Binding ShowMainScreenCommand}">
 			</Button>
 			<Rectangle Grid.Column="2" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="3" Content="Production Units" Background="#BF0000" CornerRadius="25" Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="3" Content="Production Units" Background="#BF0000" CornerRadius="25" Padding="15.8" Command="{Binding ShowProductionUnitsCommand}">
 			</Button>
 			<Rectangle Grid.Column="4" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="5" Content="Demand and Price" Background="#BF0000" CornerRadius="25" Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="5" Content="Demand and Price" Background="#BF0000" CornerRadius="25" Padding="15.8" Command="{Binding ShowDemandAndPriceCommand}">
 			</Button>
 			<Rectangle Grid.Column="6" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="7" Content="Bombardiro Crocodilo" Background="#BF0000" CornerRadius="25" Padding="15.8">
-		    </Button>
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="7" Content="Bombardiro Crocodilo" Background="#BF0000" CornerRadius="25" Padding="15.8" Command="{Binding ShowBombardiroCommand}" ></Button>
 			<Rectangle Grid.Column="8" Fill="#D9D9D9" >   </Rectangle>
 	   </Grid>
 	
 	<!-- Main Part-->
-		<Grid Grid.Row="2"   ColumnDefinitions="Auto, Auto, Auto, Auto,  *" Background="#D9D9D9">
-			<Grid.Styles>
-				<Style Selector="CheckBox:pointerover /template/ ContentPresenter">
-					<Setter Property="RenderTransform" Value="scale(1.1)">	</Setter>
-				</Style>
-			</Grid.Styles>
-			<Rectangle Grid.Column="0" Fill="" Width="30" >	</Rectangle>
-			<!-- Machine selection Part-->
-			<Grid Grid.Column="1" RowDefinitions="Auto,*, Auto" Width="200" Background="#D9D9D9">
-				<Rectangle Grid.Row="0" Fill="#D9D9D9" Height="10">	</Rectangle>
-				<Border Grid.Row="1" BorderBrush="Black" BorderThickness="2" CornerRadius="10" Padding="1.5">
-					<StackPanel Grid.Row="1" Background="#C9C9C9" >
-						<CheckBox Margin="10" Content="Gas Boiler 1" Padding="10.38" IsChecked="{Binding IsChecked1, Mode=TwoWay}" />
-						<CheckBox Margin="10"  Content="Gas Boiler 2"  Padding="10.38" IsChecked="{Binding IsChecked2, Mode=TwoWay}"></CheckBox>
-						<CheckBox Margin="10"  Content="Oil Boiler 1"  Padding="10.38" IsChecked="{Binding IsChecked3, Mode=TwoWay}"></CheckBox>
-						<CheckBox Margin="10"  Content="Gas Motor 1"  Padding="10.38" IsChecked="{Binding IsChecked4, Mode=TwoWay}"></CheckBox>
-						<CheckBox Margin="10"  Content="Heat Pump 1"  Padding="10.38" IsChecked="{Binding IsChecked5, Mode=TwoWay}"></CheckBox>
-				    </StackPanel>
-				</Border>
-				<Rectangle Grid.Row="2" Fill="#D9D9D9" Height="30">	</Rectangle>
-			</Grid>
-			<Rectangle Grid.Column="2" Fill="" Width="30">	</Rectangle>
-			<!-- Filter Part-->
-			<Rectangle Grid.Column="3" Fill="#D9D9D9" Width="0">	</Rectangle>
-			<!-- Detailed graph Part-->
-			<lvc:CartesianChart Grid.Column="4" Margin="0,40,0,80" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"  >
-			</lvc:CartesianChart>
-			
-		</Grid>
+		<ContentControl Grid.Row="2" Content="{Binding CurrentView}"/>
+		
 	<!--Bottom Part-->
-		<Grid Grid.Row="3"  Height="50" ColumnDefinitions="Auto, Auto, *, Auto, *, Auto, Auto">
-			<Rectangle Grid.Column="0" Width="50">	</Rectangle>
-			<ComboBox Grid.Column="5" ItemsSource="{Binding AvailableMetrics}"
-          SelectedItem="{Binding SelectedMetric}" Margin="0,10,0,0" Width="200"/>
-			<Rectangle Grid.Column="2" >	</Rectangle>
-			<ComboBox Grid.Column="3" ItemsSource="{Binding AvailableDates}"
-          SelectedItem="{Binding SelectedDate}" Margin="0,10,0,0" Width="200"/>
-			<Rectangle Grid.Column="4" >	</Rectangle>
-			<ComboBox Grid.Column="1" Margin="1" VerticalAlignment="Center" CornerRadius="10"
-          ItemsSource="{Binding ScenarioOptions}"
-          SelectedItem="{Binding SelectedScenario, Mode=TwoWay}">
-</ComboBox>
-			<Rectangle Grid.Column="6" Width="50" >	</Rectangle>
-		</Grid>
+		
 	</Grid>
 </Window>

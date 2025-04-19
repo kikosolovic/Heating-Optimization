@@ -20,6 +20,23 @@ namespace Heating_Optimization;
 
 public partial class MainViewModel : ObservableObject
 {
+
+    // All what is from the new windows
+    [ObservableProperty]
+    private UserControl currentView;
+
+    [RelayCommand]
+    private void ShowMainScreen() => CurrentView = new MainScreenView();
+
+    [RelayCommand]
+    private void ShowProductionUnits() => CurrentView = new ProductionUnitsView();
+
+    [RelayCommand]
+    private void ShowDemandAndPrice() => CurrentView = new DemandAndPriceView();
+
+    [RelayCommand]
+    private void ShowBombardiro() => CurrentView = new Bombardiro();
+    //
     [ObservableProperty]
     private string selectedScenario;
 
@@ -168,6 +185,7 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel(OPT optimizer)
     {
+
         _optimizer = optimizer;
         SelectedScenario = "Scenario 1";
         AllData = LoadCsv("ProductionCost_Selected.csv");
@@ -180,6 +198,7 @@ public partial class MainViewModel : ObservableObject
         SelectedMetric = AvailableMetrics.FirstOrDefault();
 
         UpdateChart();
+        ShowMainScreen();
     }
 
 

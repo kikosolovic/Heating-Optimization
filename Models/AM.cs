@@ -13,7 +13,6 @@ namespace Heating_Optimization.Models
 {
     public static class AM
     {
-        private static int _idCount = 1;
         public static string GridName { get; set; }
         public static string ImageUrl { get; set; }
 

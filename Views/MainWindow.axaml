@@ -23,12 +23,12 @@
 		<Grid Grid.Row="0"  Height="65" ColumnDefinitions="Auto, *, Auto, *, Auto">
 			<Rectangle Grid.Column="0"  Width="240">
 				<Rectangle.Fill>
-					<ImageBrush Source="C:/Users/crist//Heating-Optimization/Assets/Images/danfoss.png" Stretch="UniformToFill"/>
+					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/danfoss.png" Stretch="UniformToFill"/>
 				</Rectangle.Fill>
 			</Rectangle>
 			<Rectangle   Grid.Column="2" Width="150">
 				<Rectangle.Fill>
-					<ImageBrush Source="C:/Users/crist//Heating-Optimization/Assets/Images/title.png" Stretch="UniformToFill"/>
+					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/title.png" Stretch="UniformToFill"/>
 				</Rectangle.Fill>
 			</Rectangle>
 			<Rectangle Grid.Column="1">   </Rectangle>
@@ -44,16 +44,16 @@
 				</Style>
 			</Grid.Styles>
 			<Rectangle Grid.Column="0" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Content="Main Screen" CornerRadius="25" Background="#BF0000"  Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="1" Content="Main Screen" CornerRadius="25" Background="#BF0000"  Padding="15.8">
 			</Button>
 			<Rectangle Grid.Column="2" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3" Content="Secondary Screen" Background="#BF0000" CornerRadius="25" Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="3" Content="Production Units" Background="#BF0000" CornerRadius="25" Padding="15.8">
 			</Button>
 			<Rectangle Grid.Column="4" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="5" Content="Third Screen" Background="#BF0000" CornerRadius="25" Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="5" Content="Demand and Price" Background="#BF0000" CornerRadius="25" Padding="15.8">
 			</Button>
 			<Rectangle Grid.Column="6" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="7" Content="Fourth Screen" Background="#BF0000" CornerRadius="25" Padding="15.8">
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="7" Content="Bombardiro Crocodilo" Background="#BF0000" CornerRadius="25" Padding="15.8">
 		    </Button>
 			<Rectangle Grid.Column="8" Fill="#D9D9D9" >   </Rectangle>
 	   </Grid>

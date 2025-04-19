@@ -27,7 +27,7 @@ public partial class MainViewModel : ObservableObject
     {
         switch (value)
         {
-            case "Escenario 1":
+            case "Scenario 1":
                 IsChecked1 = true;
                 IsChecked2 = true;
                 IsChecked3 = true;
@@ -35,7 +35,7 @@ public partial class MainViewModel : ObservableObject
                 IsChecked5 = false;
                 break;
 
-            case "Escenario 2":
+            case "Scenario 2":
                 IsChecked1 = true;
                 IsChecked2 = false;
                 IsChecked3 = true;
@@ -43,33 +43,33 @@ public partial class MainViewModel : ObservableObject
                 IsChecked5 = true;
                 break;
 
-            case "Own Machines":
+            case "Manual":
                 break;
         }
     }
     private void UpdateScenario()
     {
-        // Si coincide con Escenario 1
+        // Si coincide con Scenario 1
         if (IsChecked1 && IsChecked2 && IsChecked3 && !IsChecked4 && !IsChecked5)
         {
-            SelectedScenario = "Escenario 1";
+            SelectedScenario = "Scenario 1";
         }
-        // Si coincide con Escenario 2
+        // Si coincide con Scenario 2
         else if (IsChecked1 && !IsChecked2 && IsChecked3 && IsChecked4 && IsChecked5)
         {
-            SelectedScenario = "Escenario 2";
+            SelectedScenario = "Scenario 2";
         }
-        // Si no coincide con ninguno, Own Machines
+        // Si no coincide con ninguno, Manual
         else
         {
-            SelectedScenario = "Own Machines";
+            SelectedScenario = "Manual";
         }
     }
     public ObservableCollection<string> ScenarioOptions { get; } = new()
 {
-    "Escenario 1",
-    "Escenario 2",
-    "Own Machines"
+    "Scenario 1",
+    "Scenario 2",
+    "Manual"
 };
     public ISeries[] Series { get; set; } = [
         new LineSeries<double>
@@ -100,13 +100,6 @@ public partial class MainViewModel : ObservableObject
 
     public DateTime MinDateRange2 => new DateTime(2024, 08, 11);
     public DateTime MaxDateRange2 => new DateTime(2024, 08, 24);
-
-    [ObservableProperty]
-    private string winterTime = "Winter";
-
-    [ObservableProperty]
-    private string summerTime = "Summer";
-
     public void CONSOLA()
     {
         Console.WriteLine("SI");
@@ -176,7 +169,7 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(OPT optimizer)
     {
         _optimizer = optimizer;
-        SelectedScenario = "Escenario 1";
+        SelectedScenario = "Scenario 1";
         AllData = LoadCsv("ProductionCost_Selected.csv");
 
         var uniqueDates = AllData.Select(d => d.Day).Distinct();
@@ -204,7 +197,7 @@ public partial class MainViewModel : ObservableObject
             }
             else
             {
-                Console.WriteLine("No machines selected.");
+                Console.WriteLine("No production units selected.");
             }
             return;
         }

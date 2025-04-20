@@ -3,6 +3,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Heating_Optimization.DemandAndPriceView">
-	<Rectangle Fill="Green">  </Rectangle>
+             x:Class="Heating_Optimization.DemandAndPriceView"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+			 xmlns:viewModels="clr-namespace:Heating_Optimization.ViewModels"
+             xmlns:lvcCore="using:LiveChartsCore"
+			 x:DataType="viewModels:DemandAndPriceViewModel">
+	
+	
+	
+	<Grid RowDefinitions="*, *,Auto" Background="#D9D9D9">
+		<lvc:CartesianChart Grid.Row="0"
+                            Series="{Binding PriceSeries}"
+                            Background="#D9D9D9"
+						    LegendPosition="Top"
+					        YAxes="{Binding ElectricityYAxis}"
+				        	XAxes="{Binding XAxes}"
+							Margin="40,0,40,0"/>
+
+		<lvc:CartesianChart Grid.Row="1"
+                            Series="{Binding DemandSeries}"
+							LegendPosition="Top"
+							YAxes="{Binding HeatDemandYAxis}"
+							XAxes="{Binding XAxes}"
+                            Background="#D9D9D9"
+							Margin="40,0,40,0"/>
+
+		<Grid Grid.Row="2" Height="50">
+			<ComboBox Margin="70,0,0,0"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      Width="150"
+				      ItemsSource="{Binding PeriodOptions}"
+                      SelectedItem="{Binding SelectedPeriod}"/>
+
+			<ComboBox Margin="0,0,70,0"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center"
+                      Width="200"
+                      ItemsSource="{Binding DateOptions}"
+                      SelectedItem="{Binding SelectedDate}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding StringFormat='dd/MM/yyyy'}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</Grid>
+	</Grid>
 </UserControl>
+
+
+

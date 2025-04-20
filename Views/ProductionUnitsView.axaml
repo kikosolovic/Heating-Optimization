@@ -4,5 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Heating_Optimization.ProductionUnitsView">
-	<Rectangle Fill="Blue">  </Rectangle>
+	<Grid RowDefinitions="*,*,Auto">
+		<Grid Grid.Row="0" Background="#D9D9D9" ColumnDefinitions="*,*,*">
+			<Grid Grid.Column="0">
+			     <Rectangle Margin="40">	
+			         <Rectangle.Fill>
+				          <ImageBrush Source="avares://Heating-Optimization/Assets/Images/GasBoiler1.png" Stretch="UniformToFill"/>
+			         </Rectangle.Fill>
+			     </Rectangle>
+		     </Grid>
+		     <Grid Grid.Column="1">
+			      <Rectangle Margin="40">
+			         <Rectangle.Fill>
+				          <ImageBrush Source="avares://Heating-Optimization/Assets/Images/GasBoiler2.png" Stretch="UniformToFill"/>
+			         </Rectangle.Fill>
+				</Rectangle>
+			</Grid>	
+			<Grid Grid.Column="2">
+				<Rectangle Margin="40">
+					<Rectangle.Fill>
+						<ImageBrush Source="avares://Heating-Optimization/Assets/Images/OilBoiler1.png" Stretch="UniformToFill"/>
+					</Rectangle.Fill>
+				</Rectangle>
+			</Grid>
+		</Grid>
+		<Grid Grid.Row="1" Background="#D9D9D9" ColumnDefinitions="*,*,*">
+			<Grid Grid.Column="0">	
+			<Rectangle Margin="40">
+				<Rectangle.Fill>
+					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/GasMotor1.png" Stretch="UniformToFill"/>
+				</Rectangle.Fill>
+			</Rectangle>
+			</Grid>
+			<Grid Grid.Column="1">
+			<Rectangle Margin="40">
+				<Rectangle.Fill>
+					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/HeatPump1.png" Stretch="UniformToFill"/>
+				</Rectangle.Fill>
+			</Rectangle>
+			</Grid>
+				<Grid Grid.Column="2">
+				</Grid>
+		</Grid>
+	
+		<Grid Grid.Row="2" Height="50">  </Grid>
+	
+	</Grid>
 </UserControl>

@@ -20,7 +20,7 @@
 	 
 	<Grid RowDefinitions="Auto, Auto, *, Auto">
 		<!-- Top Part-->
-		<Grid Grid.Row="0"  Height="65" ColumnDefinitions="Auto, *, Auto, *">
+		<Grid Grid.Row="0"  Height="65" ColumnDefinitions="Auto, *, Auto, *,Auto">
 			<Rectangle Grid.Column="0"  Width="240">
 				<Rectangle.Fill>
 					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/danfoss.png" Stretch="UniformToFill"/>

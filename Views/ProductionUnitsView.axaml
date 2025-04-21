@@ -2,49 +2,539 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+	         xmlns:lvcCore="using:LiveChartsCore"
+			 x:DataType="local:MainViewModel"
+			 xmlns:local="clr-namespace:Heating_Optimization"
+             mc:Ignorable="d"  d:DesignWidth="1440" d:DesignHeight="880"
              x:Class="Heating_Optimization.ProductionUnitsView">
+	
+	<UserControl.Resources>
+		<local:ProductionUnitsViewModel x:Key="ProductionUnitsViewModel"/>
+	</UserControl.Resources>
+	
 	<Grid RowDefinitions="*,*,Auto">
 		<Grid Grid.Row="0" Background="#D9D9D9" ColumnDefinitions="*,*,*">
+			
 			<Grid Grid.Column="0">
-			     <Rectangle Margin="40">	
-			         <Rectangle.Fill>
-				          <ImageBrush Source="avares://Heating-Optimization/Assets/Images/GasBoiler1.png" Stretch="UniformToFill"/>
-			         </Rectangle.Fill>
-			     </Rectangle>
+				<Grid.Styles>
+					<Style Selector="Button:pointerover /template/ ContentPresenter" >
+						<Setter Property="BorderBrush" Value="Black">	</Setter>
+					</Style>
+				</Grid.Styles>
+				<Button Margin="40"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Background="Transparent"
+				BorderBrush="Transparent"
+				BorderThickness="0"
+				x:Name="MyButton" >
+					<Grid>
+						
+						<Image Source="avares://Heating-Optimization/Assets/Images/GasBoiler1.png"
+							   Stretch="UniformToFill" Margin="-6" >
+							<Image.Opacity>
+								<Binding Path="IsPointerOver"
+										 RelativeSource="{RelativeSource AncestorType=Button}"
+										 Converter="{StaticResource ProductionUnitsViewModel}"
+										 ConverterParameter='Background'/>
+							</Image.Opacity>
+						</Image>
+						<Grid RowDefinitions="2*,*,*,*,*,*">
+						<TextBlock Text="Gas Boiler 1"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   Foreground="Black"
+								   FontSize="30"
+								   FontWeight="Bold"
+								   Grid.Row="0">
+							<TextBlock.Opacity>
+								<Binding Path="IsPointerOver"
+										 RelativeSource="{RelativeSource AncestorType=Button}"
+										 Converter="{StaticResource ProductionUnitsViewModel}"
+										 ConverterParameter='Text'/>
+							</TextBlock.Opacity>
+						</TextBlock>
+							<TextBlock Text="Name: 		GB1"
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Foreground="Black"
+								   FontSize="18.9"
+									   Grid.Row="1">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max heat:	4,0	MW"
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Foreground="Black"
+								   FontSize="18.9"
+									   Grid.Row="2">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Production costs:	518.9	DKK / MWh(th)"
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Foreground="Black"
+								   FontSize="18.9"
+									   Grid.Row="3">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="CO2 emissions:	175	kg / MWh(th)"
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Foreground="Black"
+								   FontSize="18.9"
+									   Grid.Row="4">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Gas consumption:	0,9	MWh(gas) / MWh(th)"
+								   HorizontalAlignment="Left"
+								   VerticalAlignment="Center"
+								   Foreground="Black"
+								   FontSize="18.9"
+									   Grid.Row="5">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+						</Grid>
+					</Grid>
+				</Button>
 		     </Grid>
-		     <Grid Grid.Column="1">
-			      <Rectangle Margin="40">
-			         <Rectangle.Fill>
-				          <ImageBrush Source="avares://Heating-Optimization/Assets/Images/GasBoiler2.png" Stretch="UniformToFill"/>
-			         </Rectangle.Fill>
-				</Rectangle>
-			</Grid>	
+
+			<!--Gas Boiler 2-->
+			<Grid Grid.Column="1">
+				<Button Margin="40"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						BorderThickness="0">
+					<Grid>
+						<Image Source="avares://Heating-Optimization/Assets/Images/GasBoiler2.png"
+							   Stretch="UniformToFill" Margin="-6">
+							<Image.Opacity>
+								<Binding Path="IsPointerOver"
+										 RelativeSource="{RelativeSource AncestorType=Button}"
+										 Converter="{StaticResource ProductionUnitsViewModel}"
+										 ConverterParameter='Background'/>
+							</Image.Opacity>
+						</Image>
+						<Grid RowDefinitions="2*,*,*,*,*,*">
+							<TextBlock Text="Gas Boiler 2"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="30"
+									   FontWeight="Bold"
+									   Grid.Row="0">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Name: 		GB2"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="1">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max heat:	3,0	MW"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="2">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Production costs:	560	DKK / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="3">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="CO2 emissions:	130	kg / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="4">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Gas consumption:	0,7	MWh(gas) / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="5">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+						</Grid>
+					</Grid>
+				</Button>
+			</Grid>
+			<!--Oil Boiler 1-->
 			<Grid Grid.Column="2">
-				<Rectangle Margin="40">
-					<Rectangle.Fill>
-						<ImageBrush Source="avares://Heating-Optimization/Assets/Images/OilBoiler1.png" Stretch="UniformToFill"/>
-					</Rectangle.Fill>
-				</Rectangle>
+				<Button Margin="40"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						BorderThickness="0">
+					<Grid>
+						<Image Source="avares://Heating-Optimization/Assets/Images/OilBoiler1.png"
+							   Stretch="UniformToFill" Margin="-6">
+							<Image.Opacity>
+								<Binding Path="IsPointerOver"
+										 RelativeSource="{RelativeSource AncestorType=Button}"
+										 Converter="{StaticResource ProductionUnitsViewModel}"
+										 ConverterParameter='Background'/>
+							</Image.Opacity>
+						</Image>
+						<Grid RowDefinitions="2*,*,*,*,*,*">
+							<TextBlock Text="Oil Boiler 1"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="30"
+									   FontWeight="Bold"
+									   Grid.Row="0">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Name: 		OB1"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="1">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max heat:	4,0	MW"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="2">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Production costs:	670	DKK / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="3">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="CO2 emissions: 	330 	kg / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="4">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Oil consumption:	1,5	MWh(oil) / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="5">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+						</Grid>
+					</Grid>
+				</Button>
 			</Grid>
 		</Grid>
 		<Grid Grid.Row="1" Background="#D9D9D9" ColumnDefinitions="*,*,*">
-			<Grid Grid.Column="0">	
-			<Rectangle Margin="40">
-				<Rectangle.Fill>
-					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/GasMotor1.png" Stretch="UniformToFill"/>
-				</Rectangle.Fill>
-			</Rectangle>
+			<!--Gas Motor 1-->
+			<Grid Grid.Column="0">
+				<Button Margin="40"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						BorderThickness="0">
+					<Grid>
+						<Image Source="avares://Heating-Optimization/Assets/Images/GasMotor1.png"
+							   Stretch="UniformToFill" Margin="-6">
+							<Image.Opacity>
+								<Binding Path="IsPointerOver"
+										 RelativeSource="{RelativeSource AncestorType=Button}"
+										 Converter="{StaticResource ProductionUnitsViewModel}"
+										 ConverterParameter='Background'/>
+							</Image.Opacity>
+						</Image>
+						<Grid RowDefinitions="2*,*,*,*,*,*,*">
+							<TextBlock Text="Gas Motor 1"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="30"
+									   FontWeight="Bold"
+									   Grid.Row="0">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Name: 		GM1"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="1">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max heat:	3,5	MW"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="2">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max electricity:	2,6	MW"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="3">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Production costs:	990	DKK / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="4">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="CO2 emissions: 	650	kg / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="5">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Gas consumption:	1,8	MWh(gas) / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="6">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+						</Grid>
+					</Grid>
+				</Button>
 			</Grid>
+			<!--Heat Pump 1-->
 			<Grid Grid.Column="1">
-			<Rectangle Margin="40">
-				<Rectangle.Fill>
-					<ImageBrush Source="avares://Heating-Optimization/Assets/Images/HeatPump1.png" Stretch="UniformToFill"/>
-				</Rectangle.Fill>
-			</Rectangle>
+				<Button Margin="40"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						BorderThickness="0">
+					<Grid>
+						<Image Source="avares://Heating-Optimization/Assets/Images/HeatPump1.png"
+							   Stretch="UniformToFill" Margin="-6">
+							<Image.Opacity>
+								<Binding Path="IsPointerOver"
+										 RelativeSource="{RelativeSource AncestorType=Button}"
+										 Converter="{StaticResource ProductionUnitsViewModel}"
+										 ConverterParameter='Background'/>
+							</Image.Opacity>
+						</Image>
+						<Grid RowDefinitions="2*,*,*,*,*">
+							<TextBlock Text="Heat Pump 1"
+									   HorizontalAlignment="Center"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="30"
+									   FontWeight="Bold"
+									   Grid.Row="0">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Name: 		HP1"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="1">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max heat:	6,0	MW"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="2">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Max electricity:	-6,0	MW"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="3">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+							<TextBlock Text="Production costs:	60	DKK / MWh(th)"
+									   HorizontalAlignment="Left"
+									   VerticalAlignment="Center"
+									   Foreground="Black"
+									   FontSize="18.9"
+									   Grid.Row="4">
+								<TextBlock.Opacity>
+									<Binding Path="IsPointerOver"
+											 RelativeSource="{RelativeSource AncestorType=Button}"
+											 Converter="{StaticResource ProductionUnitsViewModel}"
+											 ConverterParameter='Text'/>
+								</TextBlock.Opacity>
+							</TextBlock>
+						</Grid>
+					</Grid>
+				</Button>
 			</Grid>
-				<Grid Grid.Column="2">
-				</Grid>
 		</Grid>
 	
 		<Grid Grid.Row="2" Height="50">  </Grid>

@@ -53,7 +53,7 @@
 			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="5" Content="Demand and Price" Background="#BF0000" CornerRadius="25" Padding="15.8" Command="{Binding ShowDemandAndPriceCommand}">
 			</Button>
 			<Rectangle Grid.Column="6" Fill="#D9D9D9" >   </Rectangle>
-			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="7" Content="Bombardiro Crocodilo" Background="#BF0000" CornerRadius="25" Padding="15.8" Command="{Binding ShowBombardiroCommand}" ></Button>
+			<Button   VerticalAlignment="Center" Margin="0,3,0,0" HorizontalAlignment="Center" Grid.Column="7" Content="About" Background="#BF0000" CornerRadius="25" Padding="15.8" Command="{Binding ShowBombardiroCommand}" ></Button>
 			<Rectangle Grid.Column="8" Fill="#D9D9D9" >   </Rectangle>
 	   </Grid>
 	

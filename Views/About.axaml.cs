@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Heating_Optimization;
 
-public partial class Bombardiro : UserControl
+public partial class About : UserControl
 {
-    public Bombardiro()
+    public About()
     {
         InitializeComponent();
     }

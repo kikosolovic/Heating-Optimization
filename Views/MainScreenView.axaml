@@ -42,8 +42,11 @@
 			<ComboBox Grid.Column="5" ItemsSource="{Binding AvailableMetrics}"
 		  SelectedItem="{Binding SelectedMetric}" Margin="0,10,0,0" Width="200"/>
 			<Rectangle Grid.Column="2" >	</Rectangle>
-			<ComboBox Grid.Column="3" ItemsSource="{Binding AvailableDates}"
+			<StackPanel Grid.Column="3" Orientation="Horizontal">
+				<Label Content="Date Selection" VerticalAlignment="Center" Margin="0,0,10,0"></Label>
+			<ComboBox  ItemsSource="{Binding AvailableDates}"
 		  SelectedItem="{Binding SelectedDate}" Margin="0,10,0,0" Width="200"/>
+			</StackPanel>
 			<Rectangle Grid.Column="4" >	</Rectangle>
 			<ComboBox Grid.Column="1" Margin="1" VerticalAlignment="Center" CornerRadius="10"
 		  ItemsSource="{Binding ScenarioOptions}"

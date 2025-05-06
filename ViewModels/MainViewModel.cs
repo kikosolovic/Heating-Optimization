@@ -35,7 +35,7 @@ public partial class MainViewModel : ObservableObject
     private void ShowDemandAndPrice() => CurrentView = new DemandAndPriceView();
 
     [RelayCommand]
-    private void ShowBombardiro() => CurrentView = new Bombardiro();
+    private void ShowAbout() => CurrentView = new About();
     //
     [ObservableProperty]
     private string selectedScenario;
@@ -88,39 +88,6 @@ public partial class MainViewModel : ObservableObject
     "Scenario 2",
     "Manual"
 };
-    public ISeries[] Series { get; set; } = [
-        new LineSeries<double>
-        {
-            Values = [2, 1, 3, 5, 3, 4, 6],
-            Fill = null,
-            GeometrySize = 20
-        },
-        new LineSeries<int, StarGeometry>
-        {
-            Values = [4, 2, 5, 2, 4, 5, 3],
-            Fill = null,
-            GeometrySize = 20,
-        }
-    ];
-
-    public LabelVisual Title { get; set; } =
-        new LabelVisual
-        {
-            Text = "My chart title",
-            TextSize = 25,
-            Padding = new LiveChartsCore.Drawing.Padding(15)
-        };
-
-
-    public DateTime MinDateRange1 => new DateTime(2024, 03, 01);
-    public DateTime MaxDateRange1 => new DateTime(2024, 03, 14);
-
-    public DateTime MinDateRange2 => new DateTime(2024, 08, 11);
-    public DateTime MaxDateRange2 => new DateTime(2024, 08, 24);
-    public void CONSOLA()
-    {
-        Console.WriteLine("SI");
-    }
 
     [ObservableProperty]
     private HashSet<int> selectedMachines = new();

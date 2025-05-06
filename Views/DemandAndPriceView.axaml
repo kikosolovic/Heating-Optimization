@@ -11,7 +11,8 @@
 	
 	
 	
-	<Grid RowDefinitions="*, *,Auto" Background="#D9D9D9">
+	<Grid RowDefinitions="*,Auto">
+		<Grid RowDefinitions="*,*" Background="#D9D9D9">	
 		<lvc:CartesianChart Grid.Row="0"
                             Series="{Binding PriceSeries}"
                             Background="#D9D9D9"
@@ -27,7 +28,7 @@
 							XAxes="{Binding XAxes}"
                             Background="#D9D9D9"
 							Margin="40,0,40,0"/>
-
+		</Grid>
 		<Grid Grid.Row="2" Height="50">
 			<ComboBox Margin="70,0,0,0"
                       HorizontalAlignment="Left"
@@ -48,6 +49,7 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
+		
 		</Grid>
 	</Grid>
 </UserControl>

@@ -24,16 +24,12 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var optimizer = new OPT();
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainViewModel(optimizer),
-            };
 
-            // desktop.MainWindow = new Login
-            // {
-            //     DataContext = new LoginViewModel(),
-            // };
+
+            desktop.MainWindow = new Login
+            {
+                DataContext = new LoginViewModel(),
+            };
         }
 
         base.OnFrameworkInitializationCompleted();

@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
 using Heating_Optimization.ViewModels;
+using Heating_Optimization.Models;
 
 namespace Heating_Optimization.Views;
 
@@ -26,8 +27,12 @@ public partial class Login : Window
         LoginViewModel log = new LoginViewModel();
         if (log.checkCredentials(username, password))
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            var optimizer = new OPT();
+            var MainWindow = new MainWindow
+            {
+                DataContext = new MainViewModel(optimizer),
+            };
+            MainWindow.Show();
 
             this.Close();
         }

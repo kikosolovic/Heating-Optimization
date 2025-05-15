@@ -5,7 +5,7 @@
         xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
 		xmlns:lvcCore="using:LiveChartsCore"
         mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="880"
-		Width="1440" Height="880"
+		WindowState="Maximized"
 		x:DataType="local:MainViewModel"
 		xmlns:local="clr-namespace:Heating_Optimization"
         x:Class="Heating_Optimization.MainWindow"

@@ -14,41 +14,41 @@ namespace HeatingOptimization.Migrations
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "martin", "martin1" });
+                column: "Name",
+                value: "Martin");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 2,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "cristian", "cristian1" });
+                column: "Name",
+                value: "Cristiann");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 3,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "victor", "victor1" });
+                column: "Name",
+                value: "Tony");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 4,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "marc", "marc1" });
+                column: "Name",
+                value: "Victor");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 5,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "tony", "tony1" });
+                column: "Name",
+                value: "Marc");
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Name", "Password" },
-                values: new object[] { 6, "kristian", "kristian1" });
+                values: new object[] { 6, "Kristian", "password5" });
         }
 
         /// <inheritdoc />
@@ -63,36 +63,36 @@ namespace HeatingOptimization.Migrations
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 1,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "Alice", "password1" });
+                column: "Name",
+                value: "Alice");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 2,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "Bob", "password2" });
+                column: "Name",
+                value: "Bob");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 3,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "Charlie", "password3" });
+                column: "Name",
+                value: "Charlie");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 4,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "David", "password4" });
+                column: "Name",
+                value: "David");
 
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 5,
-                columns: new[] { "Name", "Password" },
-                values: new object[] { "Eve", "password5" });
+                column: "Name",
+                value: "Eve");
         }
     }
 }

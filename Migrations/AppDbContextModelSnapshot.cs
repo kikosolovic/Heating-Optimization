@@ -38,31 +38,37 @@ namespace HeatingOptimization.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Alice",
+                            Name = "Martin",
                             Password = "password1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Bob",
+                            Name = "Cristiann",
                             Password = "password2"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Charlie",
+                            Name = "Tony",
                             Password = "password3"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "David",
+                            Name = "Victor",
                             Password = "password4"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Eve",
+                            Name = "Marc",
+                            Password = "password5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Kristian",
                             Password = "password5"
                         });
                 });

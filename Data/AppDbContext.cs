@@ -11,11 +11,12 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().HasData(
-            new User { Id = 1, Name = "Alice", Password = ("password1") },
-            new User { Id = 2, Name = "Bob", Password = ("password2") },
-            new User { Id = 3, Name = "Charlie", Password = ("password3") },
-            new User { Id = 4, Name = "David", Password = ("password4") },
-            new User { Id = 5, Name = "Eve", Password = ("password5") }
+            new User { Id = 1, Name = "Martin", Password = ("password1") },
+            new User { Id = 2, Name = "CristianPerro", Password = ("password2") },
+            new User { Id = 3, Name = "Tony", Password = ("password3") },
+            new User { Id = 4, Name = "Victor", Password = ("password4") },
+            new User { Id = 5, Name = "Marc", Password = ("password5") },
+            new User { Id = 6, Name = "Kristian", Password = ("password5") }
         );
     }
 }

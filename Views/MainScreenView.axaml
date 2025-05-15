@@ -15,7 +15,9 @@
 				<Setter Property="RenderTransform" Value="scale(1.1)">	</Setter>
 			</Style>
 		</Grid.Styles>
+		
 		<Rectangle Grid.Column="0" Fill="" Width="30" >	</Rectangle>
+		
 		<!-- Machine selection Part-->
 		<Grid Grid.Column="1" Grid.Row="0" RowDefinitions="Auto,*, Auto" Width="200" Background="#D9D9D9">
 			<Rectangle Grid.Row="0" Fill="#D9D9D9" Height="10">	</Rectangle>
@@ -26,6 +28,7 @@
 					<CheckBox Margin="10"  Content="Oil Boiler 1"  Padding="10.38" IsChecked="{Binding IsChecked3, Mode=TwoWay}"></CheckBox>
 					<CheckBox Margin="10"  Content="Gas Motor 1"  Padding="10.38" IsChecked="{Binding IsChecked4, Mode=TwoWay}"></CheckBox>
 					<CheckBox Margin="10"  Content="Heat Pump 1"  Padding="10.38" IsChecked="{Binding IsChecked5, Mode=TwoWay}"></CheckBox>
+
 				</StackPanel>
 			</Border>
 			<Rectangle Grid.Row="2" Fill="#D9D9D9" Height="30">	</Rectangle>
@@ -34,26 +37,45 @@
 		<!-- Filter Part-->
 		<Rectangle Grid.Column="3" Fill="#D9D9D9" Width="0">	</Rectangle>
 		<!-- Detailed graph Part-->
-		<lvc:CartesianChart Grid.Column="4" Margin="0,40,0,80" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"  >
+		<lvc:CartesianChart Grid.Column="4" Margin="0,40,0,80" Series="{Binding SeriesCollection}" XAxes="{Binding XAxis}" YAxes="{Binding YAxis}"  IsVisible="{Binding DataExist}" >
 		</lvc:CartesianChart>
+		<!-- <Label Content="som kokot" IsVisible="{Binding !DataExist}" /> -->
+<Canvas Grid.Column="4" Margin="0,40,0,80" Width="400" Height="200"   IsVisible="{Binding !DataExist}">
+    <TextBlock Text="No Data :("
+               FontSize="40"
+               Foreground="Red"
+               Canvas.Left="120"
+               Canvas.Top="80" />
+</Canvas>
+
 	</Grid>
+
 		<Grid Grid.Row="1"  Height="50" ColumnDefinitions="Auto, Auto, *, Auto, *, Auto, Auto">
 			<Rectangle Grid.Column="0" Width="50">	</Rectangle>
 			<ComboBox Grid.Column="5" ItemsSource="{Binding AvailableMetrics}"
 		  SelectedItem="{Binding SelectedMetric}" Margin="0,10,0,0" Width="200"/>
 			<Rectangle Grid.Column="2" >	</Rectangle>
+
 			<StackPanel Grid.Column="3" Orientation="Horizontal">
-				<Label Content="Date Selection" VerticalAlignment="Center" Margin="0,0,10,0"></Label>
-			<ComboBox  ItemsSource="{Binding AvailableDates}"
-		  SelectedItem="{Binding SelectedDate}" Margin="0,10,0,0" Width="200"/>
+				<Button Content="{Binding DateString}" VerticalAlignment="Center" Margin="0,0,10,0">
+					  <Button.Flyout >
+    <Flyout>
+							  <Calendar x:Name="calendar" SelectionMode="MultipleRange" SelectedDate="{Binding SelectedDate}" DisplayDate="{Binding SelectedDate}" 
+							  DisplayDateStart="{Binding DatesStart }" DisplayDateEnd="{Binding DatesEnd}" />
+
+
+		</Flyout>
+  </Button.Flyout>
+					</Button>
 			</StackPanel>
+
 			<Rectangle Grid.Column="4" >	</Rectangle>
 			<ComboBox Grid.Column="1" Margin="1" VerticalAlignment="Center" CornerRadius="10"
 		  ItemsSource="{Binding ScenarioOptions}"
 		  SelectedItem="{Binding SelectedScenario, Mode=TwoWay}">
-			</ComboBox>
+			</ComboBox> 
 			<Rectangle Grid.Column="6" Width="50" >	</Rectangle>
-		</Grid>
+		</Grid> 
 
 	
 	</Grid>

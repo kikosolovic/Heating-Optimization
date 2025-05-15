@@ -15,6 +15,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using System.Globalization;
+using System.ComponentModel;
 
 namespace Heating_Optimization;
 
@@ -161,9 +163,13 @@ public partial class MainViewModel : ObservableObject
         foreach (var date in uniqueDates)
             AvailableDates.Add(date);
 
-        SelectedDate = AvailableDates.FirstOrDefault();
+        SelectedDate = DateTime.ParseExact(AvailableDates.FirstOrDefault(), "dd-MM-yyyy", CultureInfo.InvariantCulture);
         SelectedMetric = AvailableMetrics.FirstOrDefault();
 
+        DatesStart = DateOnly.ParseExact(AvailableDates.FirstOrDefault(), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToDateTime(TimeOnly.MinValue);
+        ;
+        DatesEnd = DateOnly.ParseExact(AvailableDates.LastOrDefault(), "dd-MM-yyyy", CultureInfo.InvariantCulture).ToDateTime(TimeOnly.MinValue);
+        ;
         UpdateChart();
         ShowMainScreen();
     }
@@ -210,10 +216,20 @@ public partial class MainViewModel : ObservableObject
         new() { "Total CO²", "Total Cost", "Percentage of PU Used" };
 
     [ObservableProperty]
-    private string selectedDate;
+
+    private DateTime selectedDate;
+    [ObservableProperty]
+    private string dateString;
+
 
     [ObservableProperty]
     private string selectedMetric;
+    [ObservableProperty]
+    private DateTime datesStart;
+    [ObservableProperty]
+    private DateTime datesEnd;
+    [ObservableProperty]
+    private Boolean dataExist;
 
     [ObservableProperty]
     private ObservableCollection<ISeries> seriesCollection = new();
@@ -226,16 +242,26 @@ public partial class MainViewModel : ObservableObject
 
 
 
-    partial void OnSelectedDateChanged(string value) => UpdateChart();
+    partial void OnSelectedDateChanged(DateTime value) => UpdateChart();
     partial void OnSelectedMetricChanged(string value) => UpdateChart();
+
+    private string ParseDate(DateTime date)
+    {
+        DateString = date.ToString("dd-MM-yyyy").Split(" ")[0];
+        return DateString;
+
+    }
+
 
     private void UpdateChart()
     {
         GenerateCsvOnChange();
         AllData = LoadCsv("ProductionCost_Selected.csv");
-        if (SelectedDate == null || SelectedMetric == null) return;
 
-        var dataForDate = AllData.Where(d => d.Day == SelectedDate).ToList();
+        if (SelectedDate == null || SelectedMetric == null) return;
+        var parsedDate = ParseDate(SelectedDate);
+        var dataForDate = AllData.Where(d => d.Day == parsedDate).ToList();
+        DataExist = dataForDate.Any();
         var names = dataForDate.Select(d => d.Name).Distinct();
 
         SeriesCollection.Clear();
@@ -296,6 +322,7 @@ public partial class MainViewModel : ObservableObject
                                 .Distinct()
                                 .ToList()
         });
+
     }
 
     private List<ProductionData> LoadCsv(string path)

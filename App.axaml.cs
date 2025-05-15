@@ -26,9 +26,14 @@ public partial class App : Application
         {
 
 
-            desktop.MainWindow = new Login
+            // desktop.MainWindow = new Login
+            // {
+            //     DataContext = new LoginViewModel(),
+            // };
+            var optimizer = new OPT();
+            desktop.MainWindow = new MainWindow
             {
-                DataContext = new LoginViewModel(),
+                DataContext = new MainViewModel(optimizer)
             };
         }
 

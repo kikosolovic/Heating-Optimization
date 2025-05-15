@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HeatingOptimization.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250505173419_TeamCredentials")]
+    [Migration("20250506112950_TeamCredentials")]
     partial class TeamCredentials
     {
         /// <inheritdoc />
@@ -41,38 +41,38 @@ namespace HeatingOptimization.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "martin",
-                            Password = "martin1"
+                            Name = "Martin",
+                            Password = "password1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "cristian",
-                            Password = "cristian1"
+                            Name = "Cristiann",
+                            Password = "password2"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "victor",
-                            Password = "victor1"
+                            Name = "Tony",
+                            Password = "password3"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "marc",
-                            Password = "marc1"
+                            Name = "Victor",
+                            Password = "password4"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "tony",
-                            Password = "tony1"
+                            Name = "Marc",
+                            Password = "password5"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "kristian",
-                            Password = "kristian1"
+                            Name = "Kristian",
+                            Password = "password5"
                         });
                 });
 #pragma warning restore 612, 618

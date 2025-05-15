@@ -4,7 +4,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Heating_Optimization.Views.Login"
+
+        TransparencyLevelHint="AcrylicBlur, Blur, Transparent"
         Title="Login">
+        <Window.Background >
+          
+  <ImageBrush Opacity="0.4" Source="avares://Heating-Optimization/Assets/Images/danfossGrid.png" Stretch="Fill" />
+  
+  
+          </Window.Background>
 
 
 <StackPanel VerticalAlignment="Center">

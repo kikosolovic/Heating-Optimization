@@ -20,5 +20,7 @@
 		</Grid>
 		<Rectangle Height="50" Grid.Row="1"></Rectangle>
 		
+	<Button Content="Show generated csv files"  Click="showData"/> 
 	</Grid>
+
 </UserControl>

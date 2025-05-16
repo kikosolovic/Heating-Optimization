@@ -26,15 +26,15 @@ public partial class App : Application
         {
 
 
-            desktop.MainWindow = new Login
-            {
-                DataContext = new LoginViewModel(),
-            };
-            // var optimizer = new OPT();
-            // desktop.MainWindow = new MainWindow
+            // desktop.MainWindow = new Login
             // {
-            //     DataContext = new MainViewModel(optimizer)
+            //     DataContext = new LoginViewModel(),
             // };
+            var optimizer = new OPT();
+            desktop.MainWindow = new MainWindow
+            {
+                DataContext = new MainViewModel(optimizer)
+            };
         }
 
         base.OnFrameworkInitializationCompleted();

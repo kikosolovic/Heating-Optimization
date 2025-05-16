@@ -9,7 +9,7 @@
         Title="Login">
         <Window.Background >
           
-  <ImageBrush Opacity="0.4" Source="avares://Heating-Optimization/Assets/Images/danfossGrid.png" Stretch="Fill" />
+  <ImageBrush Opacity="0.8" Source="avares://Heating-Optimization/Assets/Images/danfossGrid.png" Stretch="Fill" />
   
   
           </Window.Background>

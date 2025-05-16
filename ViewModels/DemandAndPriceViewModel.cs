@@ -23,22 +23,31 @@ public partial class DemandAndPriceViewModel : ObservableObject
 {
     public ObservableCollection<string> PeriodOptions { get; } = new ObservableCollection<string> { "Winter Period", "Summer Period" };
 
-        // Fechas disponibles según el periodo
-        [ObservableProperty]
-        private ObservableCollection<DateTime> dateOptions = new ObservableCollection<DateTime>();
+    // Fechas disponibles según el periodo
+    [ObservableProperty]
+    private ObservableCollection<DateTime> dateOptions = new ObservableCollection<DateTime>();
 
-        [ObservableProperty]
-        private string selectedPeriod;
+    [ObservableProperty]
+    private string selectedPeriod;
 
-        [ObservableProperty]
-        private DateTime selectedDate;
+    [ObservableProperty]
+    private DateTime selectedDate;
 
-        // Series de gráficas
-        [ObservableProperty]
-        private IEnumerable<ISeries> priceSeries;
+    // Series de gráficas
+    [ObservableProperty]
+    private IEnumerable<ISeries> priceSeries;
 
-        [ObservableProperty]
-        private IEnumerable<ISeries> demandSeries;
+    [ObservableProperty]
+    private IEnumerable<ISeries> demandSeries;
+
+    [ObservableProperty]
+    private DateTime datesStart;
+    [ObservableProperty]
+    private DateTime datesEnd;
+    [ObservableProperty]
+    private string dateString;
+
+
     public Axis[] XAxes { get; set; } =
     {
         new Axis
@@ -56,50 +65,57 @@ public partial class DemandAndPriceViewModel : ObservableObject
         new Axis { Name = "Heat Demand in MW" }
     };
     public DemandAndPriceViewModel()
+    {
+        SelectedPeriod = "Winter Period";
+        UpdateDateOptions();
+        UpdateCharts();
+    }
+
+    partial void OnSelectedPeriodChanged(string value)
+    {
+        UpdateDateOptions();
+        UpdateCharts();
+    }
+
+    partial void OnSelectedDateChanged(DateTime value)
+    {
+        UpdateCharts();
+    }
+
+    private void UpdateDateOptions()
+    {
+        DateOptions.Clear();
+
+        var periodDict = SelectedPeriod == "Winter Period" ? SDM.WinterPeriod : SDM.SummerPeriod;
+        foreach (var date in periodDict.Keys.Select(k => k.Date).Distinct())
         {
-            SelectedPeriod = "Winter Period";
-            UpdateDateOptions();
-            UpdateCharts();
+            DateOptions.Add(date);
         }
 
-        partial void OnSelectedPeriodChanged(string value)
+        if (DateOptions.Count > 0)
+            SelectedDate = DateOptions.First();
+
+
+
+        DatesStart = DateOptions.FirstOrDefault();
+        DatesEnd = DateOptions.LastOrDefault();
+    }
+
+    private void UpdateCharts()
+    {
+
+        DateString = SelectedDate.ToString("dd-MM-yyyy").Split(" ")[0];
+        var periodDict = SelectedPeriod == "Winter Period" ? SDM.WinterPeriod : SDM.SummerPeriod;
+        var dataOfDay = periodDict.Values.Where(d => d.TimeFrom.Date == SelectedDate).OrderBy(d => d.TimeFrom);
+
+        var electricityPrices = new double[24];
+        var heatDemands = new double[24];
+        foreach (var d in dataOfDay)
         {
-            UpdateDateOptions();
-            UpdateCharts();
+            int hour = d.TimeFrom.Hour;
+            electricityPrices[hour] = d.ElectricityPrice;
+            heatDemands[hour] = d.HeatDemand;
         }
-
-        partial void OnSelectedDateChanged(DateTime value)
-        {
-            UpdateCharts();
-        }
-
-        private void UpdateDateOptions()
-        {
-            DateOptions.Clear();
-
-            var periodDict = SelectedPeriod == "Winter Period" ? SDM.WinterPeriod : SDM.SummerPeriod;
-            foreach (var date in periodDict.Keys.Select(k => k.Date).Distinct())
-            {
-                DateOptions.Add(date);
-            }
-
-            if (DateOptions.Count > 0)
-                SelectedDate = DateOptions.First();
-        }
-
-        private void UpdateCharts()
-        {
-            var periodDict = SelectedPeriod == "Winter Period" ? SDM.WinterPeriod : SDM.SummerPeriod;
-            var dataOfDay = periodDict.Values.Where(d => d.TimeFrom.Date == SelectedDate).OrderBy(d => d.TimeFrom);
-
-            var electricityPrices = new double[24];
-            var heatDemands = new double[24];
-            foreach (var d in dataOfDay)
-            {
-                int hour = d.TimeFrom.Hour;
-                electricityPrices[hour] = d.ElectricityPrice;
-                heatDemands[hour] = d.HeatDemand;
-            }
         // Precio electricidad
         PriceSeries = new[]
             {
@@ -112,17 +128,17 @@ public partial class DemandAndPriceViewModel : ObservableObject
                 }
             };
 
-            // Demanda calor
-            DemandSeries = new[]
-            {
+        // Demanda calor
+        DemandSeries = new[]
+        {
                 new LineSeries<double>
                 {
                     Values = dataOfDay.Select(d => d.HeatDemand).ToArray(),
                     Name = "Heat Demand",
                     Fill = null,
-                    Stroke = new SolidColorPaint(SKColors.Orange, 3)   
+                    Stroke = new SolidColorPaint(SKColors.Orange, 3)
                 }
             };
-        }
+    }
 }
 

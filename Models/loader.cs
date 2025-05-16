@@ -16,7 +16,7 @@ namespace Heating_Optimization.Models
     public static class DataLoader
     {
 
-        public static void LoadPU()
+        private static void LoadPU()
         {
             int _idCount = 0;
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -45,7 +45,7 @@ namespace Heating_Optimization.Models
                             Co2Emissions = double.Parse(csv.GetField(2).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
                             FuelConsumption = double.Parse(csv.GetField(4).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
                             TypeOfFuel = csv.GetField(3).Trim(),
-                            ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim().Replace(",", "."), CultureInfo.InvariantCulture) 
+                            ElectricityProductionPerMW = double.Parse(csv.GetField(5).Trim().Replace(",", "."), CultureInfo.InvariantCulture)
                             / double.Parse(csv.GetField(1).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
                             ProductionCost = double.Parse(csv.GetField(6).Trim().Replace(",", "."), CultureInfo.InvariantCulture),
                             IsON = true
@@ -56,7 +56,7 @@ namespace Heating_Optimization.Models
                 }
             }
         }
-        public static void loadSDM()
+        private static void loadSDM()
         {
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {

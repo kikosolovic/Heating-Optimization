@@ -22,12 +22,11 @@ namespace Heating_Optimization.Models
         {
             ProductionUnits.RemoveAt(id);
         }
+        public static void AddPU(PU unit)
+        {
+            ProductionUnits.Add(unit);
+        }
 
-        // public AM()
-        // {
-        //     // LoadData("Assets/PUData.csv");
-        //     ProductionUnits = DataLoader.LoadData<AM>(Directory.GetCurrentDirectory() + "/Assets/PUData.csv", ";");
 
-        // }
     }
 }

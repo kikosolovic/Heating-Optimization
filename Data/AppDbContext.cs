@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Heating_Optimization.Data;
+
 public class AppDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }

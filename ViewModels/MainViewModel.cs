@@ -157,9 +157,9 @@ public partial class MainViewModel : ObservableObject
 
         _optimizer = optimizer;
         SelectedScenario = "Scenario 1";
-        AllData = LoadCsv("ProductionCost_Selected.csv");
 
-        var uniqueDates = AllData.Select(d => d.Day).Distinct();
+
+        var uniqueDates = RDM.productionData.Select(d => d.Day).Distinct();
         foreach (var date in uniqueDates)
             AvailableDates.Add(date);
 
@@ -178,26 +178,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void GenerateCsvOnChange()
     {
-        string fileName = $"ProductionCost_Selected.csv";
-
-        if (SelectedMachines.Count == 0)
-        {
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-                Console.WriteLine($"CSV file {fileName} was deleted because no machines were selected.");
-            }
-            else
-            {
-                Console.WriteLine("No production units selected.");
-            }
-            return;
-        }
-
-
-        _optimizer.GenerateCSVForSelectedMachines(SelectedMachines, fileName);
-
-        Console.WriteLine($"CSV successfully generated: {fileName}");
+        RDM.GenerateCsv(SelectedMachines.Count, _optimizer, SelectedMachines);
     }
 
 
@@ -237,7 +218,6 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private List<string> labels;
 
-    public List<ProductionData> AllData { get; set; }
 
 
 
@@ -256,11 +236,10 @@ public partial class MainViewModel : ObservableObject
     private void UpdateChart()
     {
         GenerateCsvOnChange();
-        AllData = LoadCsv("ProductionCost_Selected.csv");
 
         if (SelectedDate == null || SelectedMetric == null) return;
         var parsedDate = ParseDate(SelectedDate);
-        var dataForDate = AllData.Where(d => d.Day == parsedDate).ToList();
+        var dataForDate = RDM.productionData.Where(d => d.Day == parsedDate).ToList();
         DataExist = dataForDate.Any();
         var names = dataForDate.Select(d => d.Name).Distinct();
 
@@ -325,29 +304,6 @@ public partial class MainViewModel : ObservableObject
 
     }
 
-    private List<ProductionData> LoadCsv(string path)
-    {
-        if (!File.Exists(path)) return new List<ProductionData>();
 
-        var lines = File.ReadAllLines(path).Skip(1);
-        var data = new List<ProductionData>();
-
-        foreach (var line in lines)
-        {
-            var parts = line.Split(';');
-            data.Add(new ProductionData
-            {
-                Date = DateTime.ParseExact(parts[0], "dd-MM-yyyy HH:mm", null),
-                Period = parts[1],
-                Id = int.Parse(parts[2]),
-                Name = parts[3],
-                TotalHeat = double.Parse(parts[4]),
-                PercentageUsed = double.Parse(parts[5]),
-                TotalCO2 = double.Parse(parts[6]),
-                TotalCost = double.Parse(parts[7])
-            });
-        }
-        return data;
-    }
 
 }

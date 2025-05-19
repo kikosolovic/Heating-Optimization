@@ -9,7 +9,7 @@
 		x:DataType="local:MainViewModel"
 		xmlns:local="clr-namespace:Heating_Optimization"
         x:Class="Heating_Optimization.MainWindow"
-        Title="Heating_Optimization">
+        Title="Heating Optimization">
 	<Window.Background>
 		<LinearGradientBrush StartPoint="0,0" EndPoint="1440,880">
 			<GradientStop Color="#BF0000" Offset="0"/>

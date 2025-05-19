@@ -4,27 +4,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Heating_Optimization.Views.Login"
-
         TransparencyLevelHint="AcrylicBlur, Blur, Transparent"
+        Background="#F7F7F7"
         Title="Login">
-        <Window.Background >
-          
-  <ImageBrush Opacity="0.8" Source="avares://Heating-Optimization/Assets/Images/danfossGrid.png" Stretch="Fill" />
-  
-  
-          </Window.Background>
 
 
-<StackPanel VerticalAlignment="Center">
-  <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" RowDefinitions="*,*,*,*,*">
-  <TextBlock Grid.Row="0" HorizontalAlignment="Center">Username</TextBlock>
-  <TextBox Grid.Row="1" Width="400" x:Name="username"/>
-  <TextBlock Grid.Row="2" HorizontalAlignment="Center" >Password</TextBlock>
-  <TextBox Grid.Row="3" Width="400"  Name="password" PasswordChar="*"/>
-  <Button Grid.Row="4" HorizontalAlignment="Center" Theme="{StaticResource EllipseButton}" Background="Brown" Click="verify">Log in!</Button>
-    
-    
-    </Grid>
-  
-  </StackPanel>
+
+
+	<Grid ColumnDefinitions="Auto,*">
+
+		<Grid Grid.Column="0" HorizontalAlignment="Right" Width="650">
+			<Image Source="avares://Heating-Optimization/Assets/Images/loginpic.png"
+					   Width="250" Stretch="Uniform" />
+		</Grid>
+
+
+
+
+		<Grid Grid.Column="1">
+			<StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,0,0,0" Spacing="20">
+
+				<Image Source="avares://Heating-Optimization/Assets/Images/Danfoss-Logo - Copy.png"
+					   Width="520" Stretch="Uniform" />
+
+				<TextBlock Text="Employee Login"
+						   FontSize="30"
+						   Margin="0,60,0,0"
+						   FontWeight="Bold"
+               Foreground="Black"
+						   HorizontalAlignment="Center" />
+
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+					<TextBlock Grid.Row="0" Foreground="Black" Margin="45,0,30,0" HorizontalAlignment="Left" FontSize="17">Username</TextBlock>
+					<TextBox Grid.Row="1" Width="430" Height="31" x:Name="username" FontSize="14"/>
+
+					<TextBlock Grid.Row="2" Foreground="Black" Margin="45,10,0,0" HorizontalAlignment="Left" FontSize="17">Password</TextBlock>
+					<TextBox Grid.Row="3" Width="430" Height="31" Name="password" PasswordChar="*" FontSize="14"/>
+
+					<Button Grid.Row="4"
+						HorizontalAlignment="Center"
+						Margin="0,20,0,0"
+						Width="80" Height="40"
+						Background="Red"
+						FontSize="16"
+						Click="verify"
+						HorizontalContentAlignment="Center"
+            IsDefault="True"
+						VerticalContentAlignment="Center">
+										Log in
+					</Button>
+				</Grid>
+
+
+			</StackPanel>
+		</Grid>
+
+
+	</Grid>
+	
+	
 </Window>

@@ -45,6 +45,8 @@
 		<AvaloniaResource Include="Assets/Images/GasMotor1.png" />
 		<AvaloniaResource Include="Assets/Images/HeatPump1.png" />
 		<AvaloniaResource Include="Assets/Images/danfossGrid.png" />
+		<AvaloniaResource Include="Assets\Images\Danfoss-Logo - Copy.png" />
+        <AvaloniaResource Include="Assets\Images\loginpic.png" />
 		
 		<PackageReference Include="xunit" Version="2.9.2" />
 	</ItemGroup>

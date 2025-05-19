@@ -30,11 +30,11 @@ public partial class App : Application
             {
                 DataContext = new LoginViewModel(),
             };
-            //     var optimizer = new OPT();
-            //     desktop.MainWindow = new MainWindow
-            //     {
-            //         DataContext = new MainViewModel(optimizer)
-            //     };
+            // var optimizer = new OPT();
+            // desktop.MainWindow = new MainWindow
+            // {
+            //     DataContext = new MainViewModel(optimizer)
+            // };
         }
 
         base.OnFrameworkInitializationCompleted();

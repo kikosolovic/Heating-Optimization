@@ -20,6 +20,7 @@
 		</Grid>
 		<Rectangle Height="50" Grid.Row="1"></Rectangle>
 		
+	<Image Source="avares://Heating-Optimization/Assets/Images/danfossGrid.png"  Width="1000" Height="1000"/>
 	<Button Content="Show generated csv files"  Click="showData"/> 
 	</Grid>
 

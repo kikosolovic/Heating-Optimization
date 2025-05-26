@@ -1,0 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Heating_Optimization.Models;
+using Xunit;
+namespace Heating_Optimization.Tests.ModelTests
+{
+    public class SDMloaderTest
+    {
+        [Fact]
+        public void SDMloader_WhenExecuted_LoadsSDMData()
+        {
+            DataLoader.loadSDM();
+            Assert.True(SDM.SummerPeriod != null && SDM.WinterPeriod != null);
+        }
+    }
+}

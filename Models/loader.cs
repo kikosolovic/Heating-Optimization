@@ -16,7 +16,7 @@ namespace Heating_Optimization.Models
     public static class DataLoader
     {
 
-        private static void LoadPU()
+        public static void LoadPU()
         {
             int _idCount = 0;
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
@@ -56,7 +56,7 @@ namespace Heating_Optimization.Models
                 }
             }
         }
-        private static void loadSDM()
+        public static void loadSDM()
         {
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {

@@ -20,7 +20,6 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         DataLoader.LoadData();
-        Console.WriteLine(SDM.SummerPeriod.Count);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -30,11 +29,7 @@ public partial class App : Application
             {
                 DataContext = new LoginViewModel(),
             };
-            // var optimizer = new OPT();
-            // desktop.MainWindow = new MainWindow
-            // {
-            //     DataContext = new MainViewModel(optimizer)
-            // };
+
         }
 
         base.OnFrameworkInitializationCompleted();

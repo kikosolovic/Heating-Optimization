@@ -21,7 +21,6 @@ namespace Heating_Optimization.Models
         public void toggle()
         {
             IsON = !IsON;
-            Console.WriteLine(IsON);
         }
 
     }

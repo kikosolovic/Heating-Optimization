@@ -55,8 +55,6 @@ namespace Heating_Optimization.Models
 
             optimizer.GenerateCSVForSelectedMachines(SelectedMachines, fileName);
 
-            Console.WriteLine($"CSV successfully generated: {fileName}");
-
             LoadCsv(fileName);
         }
     }
